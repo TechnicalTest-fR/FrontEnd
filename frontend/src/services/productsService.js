@@ -1,8 +1,7 @@
 import axios from 'axios';
-import { API_BASE_URL_PRODUCTS } from '../environment/environment'; // Importamos la URL para productos
+import { API_BASE_URL_PRODUCTS } from '../environment/environment';
 
-// Usamos la URL base importada para productos
-const API_URL = `${API_BASE_URL_PRODUCTS}/products`; // Endpoint de productos de FakeStoreAPI
+const API_URL = `${API_BASE_URL_PRODUCTS}/api/products`;
 
 export const getProducts = async () => {
     try {
@@ -26,8 +25,6 @@ export const getProductById = async (id) => {
 
 export const createProduct = async (productData) => {
     try {
-        // FakeStoreAPI tiene un endpoint POST para productos, pero no los persiste.
-        // Solo simula una respuesta exitosa.
         const response = await axios.post(API_URL, productData);
         alert('Producto añadido (simulado): ' + JSON.stringify(response.data));
         return response.data;
@@ -39,8 +36,6 @@ export const createProduct = async (productData) => {
 
 export const updateProduct = async (id, productData) => {
     try {
-        // FakeStoreAPI tiene un endpoint PUT para productos, pero no los persiste.
-        // Solo simula una respuesta exitosa.
         const response = await axios.put(`${API_URL}/${id}`, productData);
         alert('Producto actualizado (simulado): ' + JSON.stringify(response.data));
         return response.data;
@@ -52,8 +47,6 @@ export const updateProduct = async (id, productData) => {
 
 export const deleteProduct = async (id) => {
     try {
-        // FakeStoreAPI tiene un endpoint DELETE para productos, pero no los persiste.
-        // Solo simula una respuesta exitosa.
         const response = await axios.delete(`${API_URL}/${id}`);
         alert('Producto eliminado (simulado): ' + JSON.stringify(response.data));
         return response.data;

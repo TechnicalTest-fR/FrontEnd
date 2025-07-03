@@ -28,7 +28,7 @@
       "order_date": "2023-01-16T11:00:00Z",
       "num_products": 1,
       "final_price": 50,
-      "status": "Pending",
+      "status": "In Progress",
       "products": [
         {
           "productId": 103,
