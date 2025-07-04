@@ -15,7 +15,10 @@ export const getProducts = async () => {
 
 export const getProductById = async (id) => {
     try {
+        console.log('productService - Haciendo GET para pedido con ID:', id);
+        console.log('productService - URL GET completa:', `${API_URL}/${id}`);
         const response = await axios.get(`${API_URL}/${id}`);
+        console.log('productService - Respuesta de GET por ID:', response.data);
         return response.data;
     } catch (error) {
         console.error(`Error fetching product with ID ${id}:`, error);

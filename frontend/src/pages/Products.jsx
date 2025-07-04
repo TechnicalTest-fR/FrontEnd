@@ -84,11 +84,11 @@ const Products = () => {
         if (productIdToDelete) {
             try {
                 await productsService.deleteProduct(productIdToDelete);
-                alert('Producto eliminado con éxito!');
+                alert('Product successfully removed!');
                 fetchProducts();
             } catch (err) {
                 console.error('Failed to delete product:', err);
-                alert('Error al eliminar el producto.');
+                alert('Failed to delete product');
             } finally {
                 setProductIdToDelete(null);
             }
@@ -111,10 +111,10 @@ const Products = () => {
 
     return (
         <div className="container">
-            <h1>Gestión de Productos</h1>
+            <h1>Products</h1>
 
             <button onClick={handleAddProduct} className="btn-primary" style={{ marginBottom: '20px' }}>
-                Añadir Nuevo Producto
+                New Product
             </button>
 
             <ProductTable
@@ -132,8 +132,8 @@ const Products = () => {
 
             <ConfirmationModal
                 show={showConfirmModal}
-                title="Confirmar Eliminación"
-                message="¿Estás seguro de que quieres eliminar este producto? Esta acción es irreversible y podría afectar pedidos existentes."
+                title="Confirm Deletion"
+                message="¿Are you sure you want to delete this product?"
                 onConfirm={handleConfirmDelete}
                 onCancel={handleCancelConfirmModal}
             />

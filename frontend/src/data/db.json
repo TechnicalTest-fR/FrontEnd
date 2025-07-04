@@ -25,16 +25,38 @@
     {
       "id": 2,
       "order_number": "ORD002",
-      "order_date": "2023-01-16T11:00:00Z",
+      "order_date": "2025-03-07",
       "num_products": 1,
       "final_price": 50,
-      "status": "In Progress",
+      "status": "Completed",
       "products": [
         {
           "productId": 103,
           "name": "Keyboard",
           "quantity": 1,
           "unit_price": 50
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "order_number": "ORD002",
+      "order_date": "2025-07-04",
+      "num_products": 6,
+      "final_price": 1250,
+      "status": "Pending",
+      "products": [
+        {
+          "productId": 103,
+          "name": "Keyboard",
+          "unit_price": 50,
+          "quantity": 5
+        },
+        {
+          "productId": 101,
+          "name": "Laptop",
+          "unit_price": 1000,
+          "quantity": 1
         }
       ]
     }
@@ -48,11 +70,26 @@
     {
       "id": 102,
       "name": "Mouse",
-      "unit_price": 20.5
+      "unit_price": 20.6
     },
     {
       "id": 103,
       "name": "Keyboard",
+      "unit_price": 50
+    },
+    {
+      "id": 104,
+      "name": "Mouse",
+      "unit_price": 50
+    },
+    {
+      "id": 105,
+      "name": "Mouse",
+      "unit_price": 100
+    },
+    {
+      "id": 106,
+      "name": "Monitor",
       "unit_price": 50
     }
   ]

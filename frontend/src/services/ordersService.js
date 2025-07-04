@@ -16,10 +16,13 @@ export const getOrders = async () => {
 
 export const getOrderById = async (id) => {
     try {
+        console.log('ordersService - Haciendo GET para pedido con ID:', id);
+        console.log('ordersService - URL GET completa:', `${API_URL}/${id}`);
         const response = await axios.get(`${API_URL}/${id}`);
+        console.log('ordersService - Respuesta de GET por ID:', response.data);
         return response.data;
     } catch (error) {
-        console.error(`Error fetching order with ID ${id}:`, error);
+        console.error('ordersService - Error en getOrderById:', error);
         throw error;
     }
 };
@@ -57,13 +60,17 @@ export const deleteOrder = async (id) => {
     }
 };
 
-export const updateOrderStatus = async (id, status) => {
+export const updateOrderStatus = async (id, newStatus) => {
     try {
-        const response = await axios.patch(`${API_URL}/${id}`, { status });
-        alert(`Estado de la orden ${id} actualizado a ${status}.`);
+        const url = `${API_URL}/${id}/status`;
+        
+        console.log(`[ordersService] Enviando PATCH a: ${url}`);
+        console.log(`[ordersService] Body:`, { status: newStatus });
+
+        const response = await axios.patch(url, { status: newStatus });
         return response.data;
     } catch (error) {
-        console.error(`Error updating status for order with ID ${id}:`, error);
+        console.error(`Error al actualizar el estado del pedido ${id}:`, error);
         throw error;
     }
 };

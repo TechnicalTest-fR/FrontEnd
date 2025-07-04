@@ -47,9 +47,7 @@ h1 {
     border: 1px solid #eee;
     border-radius: 4px;
     max-height: 150px;
-    /* Limita la altura si hay muchos productos */
     overflow-y: auto;
-    /* Agrega scroll si excede la altura */
 }
 
 .form-group ul li {
@@ -65,11 +63,9 @@ h1 {
 }
 
 
-/* Botones */
 .form-actions {
     margin-top: 30px;
     text-align: right;
-    /* Alinea los botones a la derecha */
 }
 
 .btn-primary,
@@ -82,14 +78,12 @@ h1 {
     font-weight: bold;
     transition: background-color 0.3s ease, transform 0.2s ease;
     min-width: 120px;
-    /* Ancho mínimo para los botones */
 }
 
 .btn-primary {
     background-color: #007bff;
     color: white;
     margin-right: 10px;
-    /* Espacio entre botones */
 }
 
 .btn-primary:hover {
@@ -107,12 +101,9 @@ h1 {
     transform: translateY(-2px);
 }
 
-/* Estilos para mensajes de carga y error */
 .error-message {
     color: #dc3545;
-    /* Rojo de Bootstrap para errores */
     background-color: #f8d7da;
-    /* Fondo suave para el error */
     border: 1px solid #f5c6cb;
     padding: 10px 20px;
     border-radius: 5px;

@@ -41,7 +41,7 @@ const OrderTable = ({ orders, onEdit, onDelete, onChangeStatus }) => {
                                 <td>{order.order_number}</td>
                                 <td>{formatDate(order.order_date)}</td>
                                 <td>{order.num_products}</td>
-                                <td>${order.final_price.toFixed(2)}</td>
+                                <td>${order.final_price ? Number(order.final_price).toFixed(2) : '0.00'}</td>
                                 <td>
                                     <span style={getStatusStyle(order.status)}>{order.status}</span>
                                     {order.status !== 'Completed' && (
@@ -59,8 +59,8 @@ const OrderTable = ({ orders, onEdit, onDelete, onChangeStatus }) => {
                                 <td>
                                     {order.status !== 'Completed' ? (
                                         <>
-                                            <button onClick={() => onEdit(order.id)} className="btn-action btn-edit">Editar</button>
-                                            <button onClick={() => onDelete(order.id)} className="btn-action btn-delete">Eliminar</button>
+                                            <button onClick={() => onEdit(order.id)} className="btn-action btn-edit">Edit</button>
+                                            <button onClick={() => onDelete(order.id)} className="btn-action btn-delete">Delete</button>
                                         </>
                                     ) : (
                                         <span style={{ color: '#888' }}>Pedido Completado</span>

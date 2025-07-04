@@ -12,8 +12,8 @@ const ConfirmationModal = ({ show, title, message, onConfirm, onCancel }) => {
                 <h2>{title}</h2>
                 <p>{message}</p>
                 <div className="modal-actions">
-                    <button onClick={onConfirm} className="btn-confirm">Confirmar</button>
-                    <button onClick={onCancel} className="btn-cancel">Cancelar</button>
+                    <button onClick={onConfirm} className="btn-confirm">Confirm</button>
+                    <button onClick={onCancel} className="btn-cancel">Cancel</button>
                 </div>
             </div>
         </div>

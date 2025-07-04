@@ -50,11 +50,11 @@ const MyOrders = () => {
         if (orderToDeleteId) {
             try {
                 await ordersService.deleteOrder(orderToDeleteId);
-                alert('Pedido eliminado con éxito!');
+                alert('Order successfully deleted!');
                 fetchOrders();
             } catch (err) {
                 console.error('Failed to delete order:', err);
-                alert('Error al eliminar el pedido.');
+                alert('Failed to delete order:.');
             } finally {
                 setOrderToDeleteId(null);
             }
@@ -88,10 +88,10 @@ const MyOrders = () => {
 
     return (
         <div className="container">
-            <h1>Mis Pedidos</h1>
+            <h1>Orders</h1>
 
             <button onClick={handleAddOrder} className="btn-primary" style={{ marginBottom: '20px' }}>
-                Añadir Nuevo Pedido
+                New order
             </button>
 
             <OrderTable
@@ -103,8 +103,8 @@ const MyOrders = () => {
 
             <ConfirmationModal
                 show={showModal}
-                title="Confirmar Eliminación"
-                message="¿Estás seguro de que quieres eliminar este pedido? Esta acción es irreversible."
+                title="Confirm Deletion"
+                message="¿Are you sure you want to delete this order?"
                 onConfirm={handleConfirmDelete}
                 onCancel={handleCancelDelete}
             />

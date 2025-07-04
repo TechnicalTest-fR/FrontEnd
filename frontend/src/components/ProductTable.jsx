@@ -7,9 +7,9 @@ const ProductTable = ({ products, onEdit, onDelete }) => {
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Precio Unitario</th>
-                        <th>Opciones</th>
+                        <th>Name</th>
+                        <th>Unit Price</th>
+                        <th>Accions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -22,10 +22,10 @@ const ProductTable = ({ products, onEdit, onDelete }) => {
                             <tr key={product.id}>
                                 <td>{product.id}</td>
                                 <td>{product.name}</td>
-                                <td>${product.unit_price.toFixed(2)}</td>
+                                <td>${Number(product.unit_price).toFixed(2)}</td>
                                 <td>
-                                    <button onClick={() => onEdit(product.id)} className="btn-action btn-edit">Editar</button>
-                                    <button onClick={() => onDelete(product.id)} className="btn-action btn-delete">Eliminar</button>
+                                    <button onClick={() => onEdit(product.id)} className="btn-action btn-edit">Edit</button>
+                                    <button onClick={() => onDelete(product.id)} className="btn-action btn-delete">Delete</button>
                                 </td>
                             </tr>
                         ))

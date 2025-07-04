@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import * as ordersService from '../services/ordersService';
 import * as productsService from '../services/productsService';
-import Order from '../models/OrderModel'; // <--- CORRECCIÓN CLAVE: Asegúrate de importar 'Orden' si tu archivo es Orden.js
+import Order from '../models/OrderModel';
 import './AddEditOrder.css';
 
 const AddEditOrder = () => {
@@ -16,12 +16,17 @@ const AddEditOrder = () => {
     num_products: 0,
     final_price: 0,
     status: 'Pending',
-    products: []
+    products: [] // Array para almacenar los productos del pedido
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [productsOptions, setProductsOptions] = useState([]);
+  const [productsOptions, setProductsOptions] = useState([]); // Lista de todos los productos disponibles
+  
+  // Nuevos estados para añadir productos
+  const [selectedProductId, setSelectedProductId] = useState('');
+  const [selectedProductQuantity, setSelectedProductQuantity] = useState(1);
 
+  // Cargar todos los productos disponibles (para el dropdown)
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -29,22 +34,22 @@ const AddEditOrder = () => {
         setProductsOptions(data);
       } catch (err) {
         console.error("Error fetching products for selection:", err);
-        // Opcional: setError para informar al usuario si los productos no cargan
+        // Si hay un error, asegúrate de que productsOptions sea un array vacío para evitar problemas
+        setProductsOptions([]);
       }
     };
     fetchProducts();
-  }, []); // Se ejecuta solo una vez al montar el componente
+  }, []);
 
+  // Cargar datos del pedido si es edición
   useEffect(() => {
     const fetchOrderData = async () => {
       setLoading(true);
       setError(null);
       try {
         if (id) {
-          // Modo "Editar": Obtener datos de la orden existente
           const data = await ordersService.getOrderById(id);
-          // <--- CORRECCIÓN CLAVE AQUÍ: Usar 'Orden' consistentemente
-          const orderInstance = new Order(data); 
+          const orderInstance = new Order(data);
           setFormData({
             id: orderInstance.id,
             order_number: orderInstance.order_number,
@@ -55,10 +60,8 @@ const AddEditOrder = () => {
             products: orderInstance.products || []
           });
         } else {
-          // Modo "Añadir": Inicializar con datos por defecto
-          // <--- CORRECCIÓN CLAVE AQUÍ: Usar 'Orden' consistentemente
-          setFormData(new Order({ 
-            id: null, // Para una nueva orden, el ID es null al inicio
+          setFormData(new Order({
+            id: null,
             order_number: '',
             order_date: new Date().toISOString().split('T')[0],
             num_products: 0,
@@ -76,8 +79,9 @@ const AddEditOrder = () => {
     };
 
     fetchOrderData();
-  }, [id]); // Se re-ejecuta cuando 'id' cambia (navegar entre editar/añadir)
+  }, [id]);
 
+  // Manejar cambios en los campos del formulario principal
   const handleChange = (e) => {
     const { name, value, type } = e.target;
     setFormData(prevData => ({
@@ -88,25 +92,99 @@ const AddEditOrder = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!formData.order_number || !formData.final_price || formData.final_price <= 0) {
-      alert("Por favor, complete el número de orden y asegúrese de que el precio final sea mayor que 0.");
+  // Función para añadir un producto a la lista del pedido
+  const handleAddProductToOrder = () => {
+    if (!selectedProductId) {
+      alert('Por favor, selecciona un producto.');
+      return;
+    }
+    if (selectedProductQuantity <= 0) {
+      alert('La cantidad debe ser mayor que cero.');
       return;
     }
 
+    const productToAdd = productsOptions.find(p => String(p.id) === String(selectedProductId));
+
+    if (productToAdd) {
+      const existingProductIndex = formData.products.findIndex(p => String(p.productId) === String(productToAdd.id));
+
+      let updatedProducts;
+      if (existingProductIndex > -1) {
+        // Actualizar cantidad si el producto ya existe en el pedido
+        updatedProducts = formData.products.map((p, index) =>
+          index === existingProductIndex
+            ? { ...p, quantity: p.quantity + selectedProductQuantity }
+            : p
+        );
+      } else {
+        // Añadir nuevo producto al pedido
+        updatedProducts = [...formData.products, {
+          productId: productToAdd.id,
+          name: productToAdd.name,
+          unit_price: productToAdd.unit_price,
+          quantity: selectedProductQuantity
+        }];
+      }
+
+      // Recalcular num_products y final_price
+      const newNumProducts = updatedProducts.reduce((sum, p) => sum + p.quantity, 0);
+      const newFinalPrice = updatedProducts.reduce((sum, p) => sum + (p.quantity * p.unit_price), 0);
+
+      setFormData(prevData => ({
+        ...prevData,
+        products: updatedProducts,
+        num_products: newNumProducts,
+        final_price: newFinalPrice
+      }));
+
+      // Resetear la selección del producto para la siguiente adición
+      setSelectedProductId('');
+      setSelectedProductQuantity(1);
+    } else {
+      alert('Producto no encontrado.');
+    }
+  };
+
+  // Función para eliminar un producto de la lista del pedido
+  const handleRemoveProductFromOrder = (productIdToRemove) => {
+    const updatedProducts = formData.products.filter(p => String(p.productId) !== String(productIdToRemove));
+
+    // Recalcular num_products y final_price
+    const newNumProducts = updatedProducts.reduce((sum, p) => sum + p.quantity, 0);
+    const newFinalPrice = updatedProducts.reduce((sum, p) => sum + (p.quantity * p.unit_price), 0);
+
+    setFormData(prevData => ({
+      ...prevData,
+      products: updatedProducts,
+      num_products: newNumProducts,
+      final_price: newFinalPrice
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validaciones
+    if (!formData.order_number.trim()) {
+      alert("El número de orden no puede estar vacío.");
+      return;
+    }
+    if (formData.products.length === 0) {
+      alert("El pedido debe contener al menos un producto.");
+      return;
+    }
+    // No validamos final_price o num_products porque se calculan automáticamente
+    // pero si lo quieres, puedes añadir validación aquí
+
     try {
       if (id) {
-        // Si hay ID, actualizamos
         await ordersService.updateOrder(id, formData);
         alert('Pedido actualizado con éxito!');
       } else {
-        // Si no hay ID, creamos
         await ordersService.createOrder(formData);
         alert('Pedido añadido con éxito!');
       }
-      navigate('/my-orders'); // Redirigir a la lista de pedidos después de guardar
+      navigate('/my-orders');
     } catch (err) {
       console.error('Error saving order:', err);
       setError('Error al guardar el pedido. Verifique la consola para más detalles.');
@@ -152,6 +230,7 @@ const AddEditOrder = () => {
           />
         </div>
 
+        {/* Los campos num_products y final_price ahora se calculan automáticamente */}
         <div className="form-group">
           <label htmlFor="numProducts">Número de Productos:</label>
           <input
@@ -160,9 +239,7 @@ const AddEditOrder = () => {
             name="num_products"
             className="form-control"
             value={formData.num_products}
-            onChange={handleChange}
-            min="0"
-            required
+            readOnly
           />
         </div>
 
@@ -173,11 +250,8 @@ const AddEditOrder = () => {
             id="finalPrice"
             name="final_price"
             className="form-control"
-            value={formData.final_price}
-            onChange={handleChange}
-            step="0.01"
-            min="0"
-            required
+            value={Number(formData.final_price).toFixed(2)}
+            readOnly // Ahora es de solo lectura
           />
         </div>
 
@@ -198,25 +272,61 @@ const AddEditOrder = () => {
           </select>
         </div>
 
-        {/* Sección de Productos (sin funcionalidad de añadir por ahora) */}
+        {/* Sección para añadir y listar productos del pedido */}
         <div className="form-group">
-          <label>Productos:</label>
+          <label>Añadir Productos al Pedido:</label>
+          <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+            <select
+              className="form-control"
+              value={selectedProductId}
+              onChange={(e) => setSelectedProductId(e.target.value)}
+              style={{ flexGrow: 1 }}
+            >
+              <option value="">-- Selecciona un Producto --</option>
+              {productsOptions.map(product => (
+                <option key={product.id} value={product.id}>
+                  {product.name} - ${Number(product.unit_price).toFixed(2)}
+                </option>
+              ))}
+            </select>
+            <input
+              type="number"
+              className="form-control"
+              value={selectedProductQuantity}
+              onChange={(e) => setSelectedProductQuantity(parseInt(e.target.value) || 1)}
+              min="1"
+              style={{ width: '80px' }}
+            />
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={handleAddProductToOrder}
+              style={{ minWidth: 'auto', padding: '10px 15px' }}
+            >
+              Añadir
+            </button>
+          </div>
+
+          <label>Productos del Pedido:</label>
           <ul>
             {formData.products && formData.products.length > 0 ? (
               formData.products.map((p, index) => (
-                <li key={p.id || index}>{p.name} - ${p.price || '0.00'}</li>
+                <li key={p.productId}>
+                  {p.name} - ${Number(p.unit_price).toFixed(2)} x {p.quantity} unid.
+                  <button
+                    type="button"
+                    className="btn-action btn-delete"
+                    onClick={() => handleRemoveProductFromOrder(p.productId)}
+                    style={{ marginLeft: '10px', padding: '5px 10px', fontSize: '0.8em' }}
+                  >
+                    X
+                  </button>
+                </li>
               ))
             ) : (
-              <li>No hay productos añadidos.</li>
+              <li>No hay productos añadidos a este pedido.</li>
             )}
           </ul>
-          <button
-            type="button"
-            className="btn btn-secondary"
-            // onClick={() => handleAddProduct()} // Puedes implementar esta función más tarde
-          >
-            Añadir Producto
-          </button>
         </div>
 
         <div className="form-actions">

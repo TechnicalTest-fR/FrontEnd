@@ -36,10 +36,10 @@ const ProductModal = ({ show, product, onSave, onCancel }) => {
     return (
         <div className="modal-overlay">
             <div className="modal-content">
-                <h2>{product ? 'Editar Producto' : 'Añadir Nuevo Producto'}</h2>
+                <h2>{product ? 'Editar Producto' : 'Add New Product'}</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="productName">Nombre:</label>
+                        <label htmlFor="productName">Name:</label>
                         <input
                             type="text"
                             id="productName"
@@ -49,7 +49,7 @@ const ProductModal = ({ show, product, onSave, onCancel }) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="unitPrice">Precio Unitario:</label>
+                        <label htmlFor="unitPrice">Unit Price:</label>
                         <input
                             type="number"
                             id="unitPrice"
