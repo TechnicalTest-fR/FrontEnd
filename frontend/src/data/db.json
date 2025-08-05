@@ -10,13 +10,17 @@
       "products": [
         {
           "productId": 101,
+          "code_product": "LPT-001",
           "name": "Laptop",
+          "classification": "Electronics",
           "quantity": 1,
           "unit_price": 1000
         },
         {
           "productId": 102,
+          "code_product": "MOU-002",
           "name": "Mouse",
+          "classification": "Peripherals",
           "quantity": 1,
           "unit_price": 20.5
         }
@@ -25,14 +29,16 @@
     {
       "id": 2,
       "order_number": "ORD002",
-      "order_date": "2025-03-07",
+      "order_date": "2023-01-16T11:00:00Z",
       "num_products": 1,
       "final_price": 50,
-      "status": "Completed",
+      "status": "Pending",
       "products": [
         {
           "productId": 103,
+          "code_product": "KEY-003",
           "name": "Keyboard",
+          "classification": "Peripherals",
           "quantity": 1,
           "unit_price": 50
         }
@@ -40,22 +46,60 @@
     },
     {
       "id": 3,
-      "order_number": "ORD002",
-      "order_date": "2025-07-04",
-      "num_products": 6,
-      "final_price": 1250,
+      "order_number": "652",
+      "order_date": "2025-08-03",
+      "num_products": 4,
+      "final_price": 3020.5,
       "status": "Pending",
       "products": [
         {
-          "productId": 103,
-          "name": "Keyboard",
-          "unit_price": 50,
-          "quantity": 5
+          "productId": 101,
+          "code_product": "LPT-001",
+          "name": "Laptop",
+          "classification": "Electronics",
+          "unit_price": 1000,
+          "quantity": 3
         },
         {
-          "productId": 101,
-          "name": "Laptop",
-          "unit_price": 1000,
+          "productId": 102,
+          "code_product": "MOU-002",
+          "name": "Mouse",
+          "classification": "Peripherals",
+          "unit_price": 20.5,
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "order_number": "655",
+      "order_date": "2025-08-03",
+      "num_products": 3,
+      "final_price": 27,
+      "status": "Pending",
+      "products": [
+        {
+          "productId": 104,
+          "code_product": "DAS-004",
+          "name": "DashBoard",
+          "classification": "Accessories",
+          "unit_price": 9,
+          "quantity": 3
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "order_number": "5641",
+      "order_date": "2025-08-03",
+      "num_products": 1,
+      "final_price": 14,
+      "status": "Pending",
+      "products": [
+        {
+          "productId": 105,
+          "name": "DashBoard",
+          "unit_price": 14,
           "quantity": 1
         }
       ]
@@ -64,33 +108,48 @@
   "products": [
     {
       "id": 101,
+      "code_product": "LPT-001",
       "name": "Laptop",
-      "unit_price": 1000
+      "classification": "Electronics",
+      "stock": 2,
+      "unit_price": 1006,
+      "previous_unit_price": null
     },
     {
       "id": 102,
+      "code_product": "MOU-002",
       "name": "Mouse",
-      "unit_price": 20.6
+      "classification": "Peripherals",
+      "unit_price": 20.5,
+      "previous_unit_price": 25,
+      "stock": 25
     },
     {
       "id": 103,
+      "code_product": "KEY-003",
       "name": "Keyboard",
-      "unit_price": 50
+      "classification": "Peripherals",
+      "unit_price": 50,
+      "previous_unit_price": null,
+      "stock": 10
     },
     {
       "id": 104,
-      "name": "Mouse",
-      "unit_price": 50
+      "code_product": "DAS-004",
+      "name": "DashBoard",
+      "classification": "Accessories",
+      "unit_price": 90,
+      "previous_unit_price": 9,
+      "stock": 80
     },
     {
       "id": 105,
-      "name": "Mouse",
-      "unit_price": 100
-    },
-    {
-      "id": 106,
-      "name": "Monitor",
-      "unit_price": 50
+      "code_product": "DA-0008",
+      "name": "DashBoard",
+      "classification": "Technology",
+      "stock": 30,
+      "unit_price": 14,
+      "previous_unit_price": 13
     }
   ]
 }

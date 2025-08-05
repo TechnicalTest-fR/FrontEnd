@@ -1,0 +1,182 @@
+.suppliers-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 30px;
+    background-color: #f0f2f5;
+    border-radius: 15px;
+}
+
+.suppliers-container h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.suppliers-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 30px;
+}
+
+.suppliers-form-card,
+.suppliers-table-card {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.suppliers-form-card:hover,
+.suppliers-table-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.suppliers-form-card h3,
+.suppliers-table-card h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #34495e;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+.suppliers-form-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.suppliers-form-card input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.suppliers-form-card input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+    outline: none;
+}
+
+/* Estilo general para todos los botones */
+.btn {
+    padding: 8px 12px;
+    font-size: 0.9em;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Colores de los botones */
+.btn-secondary {
+    background-color: #6c757d;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+}
+
+.btn-primary {
+    background-color: #007bff;
+}
+
+
+/* Celdas de acciones */
+.actions-cell {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start;
+}
+
+/* Efectos específicos para los botones de acción */
+
+/* Efecto hover para el botón Editar */
+.actions-cell .btn-secondary:hover {
+    background-color: #5a6268;
+    /* Oscurece el color */
+    transform: translateY(-2px);
+    /* Se levanta un poco */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Efecto hover para el botón Eliminar */
+.actions-cell .btn-danger:hover {
+    background-color: #c82333;
+    /* Oscurece aún más el color */
+    transform: scale(1.05);
+    /* Se agranda un poco */
+    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.4);
+}
+
+/* Efecto hover para el botón de Ver/Ocultar Historial */
+.actions-cell .btn-info:hover {
+    background-color: #138496;
+    /* Oscurece el color */
+    box-shadow: 0 2px 5px rgba(23, 162, 184, 0.3);
+}
+
+/* Estilo de la tabla */
+.suppliers-table-card table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.suppliers-table-card th,
+.suppliers-table-card td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+.suppliers-table-card th {
+    background-color: #e9ecef;
+    color: #495057;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Efecto hover en las filas de la tabla */
+.suppliers-table-card tbody tr:hover {
+    background-color: #eef4f9;
+    cursor: pointer;
+}
+
+/* Estilo de la fila de historial */
+.history-row {
+    background-color: #f8f9fa;
+    border-top: 2px solid #ddd;
+    transition: all 0.5s ease-in-out;
+}
+
+/* Estilo para el contenido del historial */
+.history-row h4 {
+    margin: 10px 0;
+    color: #34495e;
+    font-size: 1.1em;
+}
+
+.history-row table {
+    margin-top: 10px;
+    width: 100%;
+}
+
+/* Media query para dispositivos móviles */
+@media (max-width: 900px) {
+    .suppliers-content {
+        grid-template-columns: 1fr;
+    }
+}

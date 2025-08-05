@@ -1,0 +1,196 @@
+/* ======================================= */
+/* Estilos de la Cabecera (Botón y Filtros) */
+/* ======================================= */
+
+/* Contenedor principal que agrupa el botón y los filtros */
+.table-actions {
+    display: flex;
+    align-items: center;
+    /* Alinea los elementos verticalmente al centro */
+    gap: 20px;
+    /* Espacio entre el botón y el grupo de filtros */
+    margin-bottom: 20px;
+}
+
+/* Contenedor de los filtros individuales */
+.filters-container {
+    display: flex;
+    gap: 10px;
+    /* Espacio entre los filtros individuales */
+    flex-grow: 1;
+    /* Hace que este contenedor ocupe todo el espacio restante */
+}
+
+/* Estilo base para los inputs y selects del filtro */
+.filters-container .search-input,
+.filters-container .filter-select,
+.filters-container .filter-input {
+    flex: 1;
+    /* Hace que cada filtro individual se expanda por igual */
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-weight: 500;
+    color: #495057;
+    background-color: #fff;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* ======================================= */
+/* Estilos para Selects (Filtros y Tabla) */
+/* ======================================= */
+
+/* Estilo base para los selects de la tabla y filtro */
+.status-select,
+.filter-select {
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-weight: 500;
+    color: #495057;
+    background-color: #fff;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* Flecha personalizada en SVG */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236c757d%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.4-6.3H18.9c-5.5%200-10.5%202.2-13.4%206.3-4.8%204.6-6.7%2011.6-5.8%2018.1.9%206.3%204.3%2012.3%2011.2%2016l125%20128c6.6%206.6%2017.4%206.6%2024%200l125-128c6.9-3.7%2010.3-9.7%2011.2-16%201-6.5-1-13.5-5.8-18.1z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px;
+    padding-right: 30px;
+}
+
+/* Estilo para los selects del filtro (se ajusta el padding) */
+.filter-select {
+    padding: 10px 15px;
+}
+
+/* Estilo para los selects de la tabla (con colores condicionales) */
+.status-select {
+    padding: 8px 12px;
+}
+
+.status-select.green {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+
+.status-select.yellow {
+    background-color: #fff3cd;
+    color: #856404;
+    border-color: #ffeeba;
+}
+
+.status-select.red {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}
+
+.status-select.default {
+    background-color: #e9ecef;
+    color: #495057;
+    border-color: #ced4da;
+}
+/* Estilos para Botones y Acciones */
+.btn {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-left: 5px;
+    color: white;
+    white-space: nowrap;
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 1em;
+}
+
+/* Estilo específico para el botón de detalles (azul) */
+.btn-details {
+    background-color: #007bff;
+}
+
+.btn-details:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-view {
+    background-color: #007bff;
+}
+
+.btn-view:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-edit {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.btn-edit:hover {
+    background-color: #e0a800;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: #212529;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo base para los select de la tabla (con bordes redondeados y flecha personalizada) */
+.status-select {
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-weight: 500;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* Agregar una flecha personalizada SVG */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236c757d%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.4-6.3H18.9c-5.5%200-10.5%202.2-13.4%206.3-4.8%204.6-6.7%2011.6-5.8%2018.1.9%206.3%204.3%2012.3%2011.2%2016l125%20128c6.6%206.6%2017.4%206.6%2024%200l125-128c6.9-3.7%2010.3-9.7%2011.2-16%201-6.5-1-13.5-5.8-18.1z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px;
+    padding-right: 30px;
+    /* Espacio para la flecha */
+}
+
+/* Colores para el estado "Completado" */
+.status-select.green {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+
+
+
+/* Colores para el estado "Cancelado" */
+.status-select.red {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}
+
+/* Colores por defecto para cualquier otro estado */
+.status-select.default {
+    background-color: #e9ecef;
+    color: #495057;
+    border-color: #ced4da;
+}

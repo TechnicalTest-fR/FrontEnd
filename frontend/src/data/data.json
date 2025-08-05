@@ -2,43 +2,426 @@
   "orders": [
     {
       "id": 1,
-      "order_number": "ORD001",
-      "order_date": "2023-01-15T10:30:00Z",
-      "num_products": 2,
-      "final_price": 120.50,
-      "status": "Completed",
+      "order_number": "ORD-20250728-001",
+      "customer_name": "Sofía Rodríguez",
+      "order_date": "2025-07-28",
+      "payment_status": "Paid",
+      "payment_method": "PAYPAL",
+      "status": "Pendiente",
+      "final_price": 1026.5,
       "products": [
-        {"productId": 101, "name": "Laptop", "quantity": 1, "unit_price": 1000},
-        {"productId": 102, "name": "Mouse", "quantity": 1, "unit_price": 20.50}
-      ]
+        {
+          "productId": 101,
+          "name": "Laptop",
+          "unit_price": 1006,
+          "quantity": 1,
+          "supplier_id": 2
+        },
+        {
+          "productId": 102,
+          "name": "Mouse",
+          "unit_price": 20.5,
+          "quantity": 1,
+          "supplier_id": 1
+        }
+      ],
+      "num_products": 0,
+      "shipping_address": "Calle Falsa 123, Ciudad de México, México",
+      "shipping_method": "Estándar",
+      "tracking_number": "TRK-MEX-100200",
+      "notes": "Ninguna",
+      "updated_at": "2025-08-05T05:10:58.848Z"
     },
     {
       "id": 2,
-      "order_number": "ORD002",
-      "order_date": "2023-01-16T11:00:00Z",
-      "num_products": 1,
-      "final_price": 50.00,
-      "status": "Pending",
+      "order_number": "ORD-20250729-002",
+      "customer_name": "Juan Pérez",
+      "order_date": "2025-07-29",
+      "payment_status": "Pending",
+      "payment_method": "Credit Card",
+      "status": "En Progreso",
+      "final_price": 150,
       "products": [
-        {"productId": 103, "name": "Keyboard", "quantity": 1, "unit_price": 50}
+        {
+          "productId": 103,
+          "name": "Keyboard",
+          "unit_price": 75,
+          "quantity": 2,
+          "supplier_id": 1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "order_number": "ORD-20250730-003",
+      "customer_name": "María Gonsález",
+      "order_date": "2025-07-30",
+      "payment_status": "Paid",
+      "payment_method": "BANK_TRANSFER",
+      "status": "Completado",
+      "final_price": 500.25,
+      "products": [
+        {
+          "productId": 104,
+          "name": "Monitor",
+          "unit_price": 500.25,
+          "quantity": 1,
+          "supplier_id": 3
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "order_number": "ORD-20250731-004",
+      "customer_name": "Carlos Sánchez",
+      "order_date": "2025-07-31",
+      "payment_status": "Paid",
+      "payment_method": "PAYPAL",
+      "status": "Cancelado",
+      "final_price": 85,
+      "products": [
+        {
+          "productId": 105,
+          "name": "Webcam",
+          "unit_price": 42.5,
+          "quantity": 2,
+          "supplier_id": 4
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "order_number": "ORD-20250801-005",
+      "customer_name": "Laura Torres",
+      "order_date": "2025-08-01",
+      "payment_status": "Pending",
+      "payment_method": "Credit Card",
+      "status": "Completado",
+      "final_price": 25.99,
+      "products": [
+        {
+          "productId": 106,
+          "name": "USB Flash Drive",
+          "unit_price": 12.99,
+          "quantity": 2,
+          "supplier_id": 5
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "order_number": "ORD-20250802-006",
+      "customer_name": "Pedro Ramírez",
+      "order_date": "2025-08-02",
+      "payment_status": "Paid",
+      "payment_method": "PAYPAL",
+      "status": "En Progreso",
+      "final_price": 349,
+      "products": [
+        {
+          "productId": 107,
+          "name": "Headphones",
+          "unit_price": 349,
+          "quantity": 1,
+          "supplier_id": 6
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "order_number": "ORD-20250803-007",
+      "customer_name": "Ana Gómez",
+      "order_date": "2025-08-03",
+      "payment_status": "Pending",
+      "payment_method": "BANK_TRANSFER",
+      "status": "Pendiente",
+      "final_price": 450.75,
+      "products": [
+        {
+          "productId": 108,
+          "name": "Printer",
+          "unit_price": 450.75,
+          "quantity": 1,
+          "supplier_id": 7
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "order_number": "ORD-20250804-008",
+      "customer_name": "Javier Herrera",
+      "order_date": "2025-08-04",
+      "payment_status": "Paid",
+      "payment_method": "Credit Card",
+      "status": "Completado",
+      "final_price": 120,
+      "products": [
+        {
+          "productId": 109,
+          "name": "External Hard Drive",
+          "unit_price": 60,
+          "quantity": 2,
+          "supplier_id": 8
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "order_number": "ORD-20250805-009",
+      "customer_name": "Isabel Vargas",
+      "order_date": "2025-08-05",
+      "payment_status": "Paid",
+      "payment_method": "PAYPAL",
+      "status": "Cancelado",
+      "final_price": 99.99,
+      "products": [
+        {
+          "productId": 110,
+          "name": "Graphics Tablet",
+          "unit_price": 99.99,
+          "quantity": 1,
+          "supplier_id": 9
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "order_number": "ORD-20250806-010",
+      "customer_name": "Ricardo Castro",
+      "order_date": "2025-08-06",
+      "payment_status": "Pending",
+      "payment_method": "BANK_TRANSFER",
+      "status": "Cancelado",
+      "final_price": 650,
+      "products": [
+        {
+          "productId": 111,
+          "name": "Wireless Router",
+          "unit_price": 65,
+          "quantity": 10,
+          "supplier_id": 10
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "order_number": "ORD-20250807-011",
+      "customer_name": "Elena Díaz",
+      "order_date": "2025-08-07",
+      "payment_status": "Paid",
+      "payment_method": "Credit Card",
+      "status": "Completado",
+      "final_price": 10,
+      "products": [
+        {
+          "productId": 112,
+          "name": "USB Cable",
+          "unit_price": 2,
+          "quantity": 5,
+          "supplier_id": 11
+        }
       ]
     }
   ],
   "products": [
     {
       "id": 101,
+      "code_product": "LPT-001",
       "name": "Laptop",
-      "unit_price": 1000.00
+      "classification": "Electronics",
+      "stock": 1,
+      "unit_price": 1006,
+      "previous_unit_price": null,
+      "supplier_id": 2
     },
     {
       "id": 102,
+      "code_product": "MOU-001",
       "name": "Mouse",
-      "unit_price": 20.50
+      "classification": "Peripherals",
+      "stock": 50,
+      "unit_price": 20.5,
+      "previous_unit_price": null,
+      "supplier_id": 1
     },
     {
       "id": 103,
+      "code_product": "KYB-001",
       "name": "Keyboard",
-      "unit_price": 50.00
+      "classification": "Peripherals",
+      "stock": 30,
+      "unit_price": 75,
+      "previous_unit_price": null,
+      "supplier_id": 1
+    },
+    {
+      "id": 104,
+      "code_product": "MON-001",
+      "name": "Monitor",
+      "classification": "Electronics",
+      "stock": 5,
+      "unit_price": 500.25,
+      "previous_unit_price": null,
+      "supplier_id": 3
+    },
+    {
+      "id": 105,
+      "code_product": "WBC-001",
+      "name": "Webcam",
+      "classification": "Peripherals",
+      "stock": 20,
+      "unit_price": 42.5,
+      "previous_unit_price": null,
+      "supplier_id": 4
+    },
+    {
+      "id": 106,
+      "code_product": "USB-001",
+      "name": "USB Flash Drive",
+      "classification": "Storage",
+      "stock": 100,
+      "unit_price": 12.99,
+      "previous_unit_price": null,
+      "supplier_id": 5
+    },
+    {
+      "id": 107,
+      "code_product": "HDP-001",
+      "name": "Headphones",
+      "classification": "Accessories",
+      "stock": 15,
+      "unit_price": 349,
+      "previous_unit_price": null,
+      "supplier_id": 6
+    },
+    {
+      "id": 108,
+      "code_product": "PRT-001",
+      "name": "Printer",
+      "classification": "Office Equipment",
+      "stock": 8,
+      "unit_price": 450.75,
+      "previous_unit_price": null,
+      "supplier_id": 7
+    },
+    {
+      "id": 109,
+      "code_product": "HDD-001",
+      "name": "External Hard Drive",
+      "classification": "Storage",
+      "stock": 12,
+      "unit_price": 60,
+      "previous_unit_price": null,
+      "supplier_id": 8
+    },
+    {
+      "id": 110,
+      "code_product": "GRT-001",
+      "name": "Graphics Tablet",
+      "classification": "Accessories",
+      "stock": 7,
+      "unit_price": 99.99,
+      "previous_unit_price": null,
+      "supplier_id": 9
+    },
+    {
+      "id": 111,
+      "code_product": "WLR-001",
+      "name": "Wireless Router",
+      "classification": "Networking",
+      "stock": 25,
+      "unit_price": 65,
+      "previous_unit_price": null,
+      "supplier_id": 10
+    },
+    {
+      "id": 112,
+      "code_product": "USC-001",
+      "name": "USB Cable",
+      "classification": "Accessories",
+      "stock": 200,
+      "unit_price": 2,
+      "previous_unit_price": null,
+      "supplier_id": 11
+    }
+  ],
+  "suppliers": [
+    {
+      "id": 1,
+      "company_name": "Distribuidora del Norte S.A.",
+      "ruc": "20123456789",
+      "contact": "Juan Pérez - 987654321",
+      "address": "Av. Los Próceres 123, Lima"
+    },
+    {
+      "id": 2,
+      "company_name": "Tecno Importaciones S.A.",
+      "ruc": "20987654321",
+      "contact": "Ana López - 991122334",
+      "address": "Calle Las Begonias 456, San Isidro"
+    },
+    {
+      "id": 3,
+      "company_name": "Electro Hogar E.I.R.L.",
+      "ruc": "20345678901",
+      "contact": "Miguel Torres - 976543210",
+      "address": "Jr. Puno 789, Cercado de Lima"
+    },
+    {
+      "id": 4,
+      "company_name": "Soluciones Tecnológicas S.R.L.",
+      "ruc": "20456789012",
+      "contact": "Sofía Castro - 965432109",
+      "address": "Av. La Molina 321, La Molina"
+    },
+    {
+      "id": 5,
+      "company_name": "Almacén Central S.A.C.",
+      "ruc": "20567890123",
+      "contact": "Felipe Vargas - 954321098",
+      "address": "Calle Real 111, Miraflores"
+    },
+    {
+      "id": 6,
+      "company_name": "Audio Max E.I.R.L.",
+      "ruc": "20678901234",
+      "contact": "Elena Flores - 943210987",
+      "address": "Av. Arequipa 555, Lince"
+    },
+    {
+      "id": 7,
+      "company_name": "Office Supplies Inc.",
+      "ruc": "20789012345",
+      "contact": "Daniel Ruiz - 932109876",
+      "address": "Psje. Olaya 777, Chorrillos"
+    },
+    {
+      "id": 8,
+      "company_name": "Data Storage Perú S.A.C.",
+      "ruc": "20890123456",
+      "contact": "Gabriela Mendoza - 921098765",
+      "address": "Jr. Gamarra 888, La Victoria"
+    },
+    {
+      "id": 9,
+      "company_name": "Creativos Digitales S.A.",
+      "ruc": "20901234567",
+      "contact": "Jorge Morales - 910987654",
+      "address": "Av. Pardo 999, San Isidro"
+    },
+    {
+      "id": 10,
+      "company_name": "Conectividad Total S.A.",
+      "ruc": "20012345678",
+      "contact": "Lucía Pinedo - 909876543",
+      "address": "Calle San Martín 101, Barranco"
+    },
+    {
+      "id": 11,
+      "company_name": "Accesorios Globales S.R.L.",
+      "ruc": "20112233445",
+      "contact": "Roberto Ríos - 908765432",
+      "address": "Av. Salaverry 222, Jesús María"
     }
   ]
 }

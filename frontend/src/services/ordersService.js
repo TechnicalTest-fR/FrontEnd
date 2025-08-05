@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { API_BASE_URL_ORDERS } from '../environment/environment';
 
+// Utiliza la URL base para el endpoint de pedidos
 const API_URL = `${API_BASE_URL_ORDERS}/api/orders`;
 
 
@@ -38,9 +39,10 @@ export const createOrder = async (orderData) => {
     }
 };
 
-export const updateOrder = async (id, orderData) => {
+// CÓDIGO CORREGIDO: Usamos PATCH para actualizar solo los campos que cambian
+export const updateOrder = async (id, updatedData) => {
     try {
-        const response = await axios.put(`${API_URL}/${id}`, orderData);
+        const response = await axios.patch(`${API_URL}/${id}`, updatedData);
         alert('Orden actualizada: ' + JSON.stringify(response.data));
         return response.data;
     } catch (error) {
@@ -56,21 +58,6 @@ export const deleteOrder = async (id) => {
         return response.data;
     } catch (error) {
         console.error(`Error deleting order with ID ${id}:`, error);
-        throw error;
-    }
-};
-
-export const updateOrderStatus = async (id, newStatus) => {
-    try {
-        const url = `${API_URL}/${id}/status`;
-        
-        console.log(`[ordersService] Enviando PATCH a: ${url}`);
-        console.log(`[ordersService] Body:`, { status: newStatus });
-
-        const response = await axios.patch(url, { status: newStatus });
-        return response.data;
-    } catch (error) {
-        console.error(`Error al actualizar el estado del pedido ${id}:`, error);
         throw error;
     }
 };
