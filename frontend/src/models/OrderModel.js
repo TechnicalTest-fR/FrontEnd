@@ -1,4 +1,3 @@
-// src/models/OrderModel.js
 class Order {
     constructor({ 
       id, 
