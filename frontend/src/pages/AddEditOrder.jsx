@@ -44,7 +44,7 @@ const AddEditOrder = () => {
                 }
             } catch (err) {
                 console.error("Error loading order data:", err);
-                setError("Error al cargar los datos del pedido. Por favor, intente de nuevo.");
+                setError("Error loading order data. Please try again.");
             } finally {
                 setLoading(false);
             }
@@ -62,11 +62,11 @@ const AddEditOrder = () => {
 
     const handleAddProductToOrder = () => {
         if (!selectedProductId) {
-            alert('Por favor, selecciona un producto.');
+            alert('Please, select a product.');
             return;
         }
         if (selectedProductQuantity <= 0) {
-            alert('La cantidad debe ser mayor que cero.');
+            alert('The quantity must be greater than zero.');
             return;
         }
 
@@ -107,7 +107,7 @@ const AddEditOrder = () => {
             setSelectedProductId('');
             setSelectedProductQuantity(1);
         } else {
-            alert('Producto no encontrado.');
+            alert('Product not found.');
         }
     };
 
@@ -129,15 +129,15 @@ const AddEditOrder = () => {
         e.preventDefault();
 
         if (!formData.order_number.trim()) {
-            alert("El número de orden no puede estar vacío.");
+            alert("The order number cannot be empty.");
             return;
         }
         if (!formData.customer_name.trim()) {
-            alert("El nombre del cliente no puede estar vacío.");
+            alert("The customer name cannot be empty.");
             return;
         }
         if (formData.products.length === 0) {
-            alert("El pedido debe contener al menos un producto.");
+            alert("The order must contain at least one product.");
             return;
         }
 
@@ -145,20 +145,20 @@ const AddEditOrder = () => {
             const orderToSave = { ...formData, updated_at: new Date().toISOString() };
             if (id) {
                 await ordersService.updateOrder(id, orderToSave);
-                alert('Pedido actualizado con éxito!');
+                alert('Order updated successfully!');
             } else {
                 await ordersService.createOrder(orderToSave);
-                alert('Pedido añadido con éxito!');
+                alert('Order added successfully!');
             }
             navigate('/my-orders');
         } catch (err) {
             console.error('Error saving order:', err);
-            setError('Error al guardar el pedido. Verifique la consola para más detalles.');
+            setError('Error saving order. Check the console for more details.');
         }
     };
 
     if (loading) {
-        return <div className="container">Cargando formulario de pedido...</div>;
+        return <div className="container">Loading order form...</div>;
     }
 
     if (error) {
@@ -167,30 +167,30 @@ const AddEditOrder = () => {
 
     return (
         <div className="container">
-            <h1>{id ? 'Editar Pedido' : 'Añadir Nuevo Pedido'}</h1>
+            <h1>{id ? 'Edit Order' : 'Add New Order'}</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label htmlFor="customerName">Nombre del Cliente:</label>
+                    <label htmlFor="customerName">Customer Name:</label>
                     <input type="text" id="customerName" name="customer_name" className="form-control" value={formData.customer_name} onChange={handleChange} required />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="orderNumber">Número de Orden:</label>
+                    <label htmlFor="orderNumber">Order Number:</label>
                     <input type="text" id="orderNumber" name="order_number" className="form-control" value={formData.order_number} onChange={handleChange} required />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="orderDate">Fecha de Orden:</label>
+                    <label htmlFor="orderDate">Order Date:</label>
                     <input type="date" id="orderDate" name="order_date" className="form-control" value={formData.order_date} onChange={handleChange} required />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="paymentStatus">Estado de Pago:</label>
+                    <label htmlFor="paymentStatus">Payment Status:</label>
                     <select id="paymentStatus" name="payment_status" className="form-control" value={formData.payment_status} onChange={handleChange} required >
-                        <option value="Pending">Pendiente</option>
-                        <option value="Paid">Pagado</option>
-                        <option value="Failed">Fallido</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Failed">Failed</option>
                     </select>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="paymentMethod">Método de Pago:</label>
+                    <label htmlFor="paymentMethod">Payment Method:</label>
                     <select id="paymentMethod" name="payment_method" className="form-control" value={formData.payment_method} onChange={handleChange} required >
                         <option value="CASH">CASH</option>
                         <option value="CREDIT_CARD">CREDIT_CARD</option>
@@ -199,43 +199,43 @@ const AddEditOrder = () => {
                     </select>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="shippingAddress">Dirección de Envío:</label>
+                    <label htmlFor="shippingAddress">Shipping Address:</label>
                     <input type="text" id="shippingAddress" name="shipping_address" className="form-control" value={formData.shipping_address} onChange={handleChange} required />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="shippingMethod">Método de Envío:</label>
+                    <label htmlFor="shippingMethod">Shipping Method:</label>
                     <input type="text" id="shippingMethod" name="shipping_method" className="form-control" value={formData.shipping_method} onChange={handleChange} required />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="trackingNumber">Número de Rastreo:</label>
+                    <label htmlFor="trackingNumber">Tracking Number:</label>
                     <input type="text" id="trackingNumber" name="tracking_number" className="form-control" value={formData.tracking_number} onChange={handleChange} />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="notes">Notas del Pedido:</label>
+                    <label htmlFor="notes">Order Notes:</label>
                     <textarea id="notes" name="notes" className="form-control" value={formData.notes} onChange={handleChange} />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="status">Estado General:</label>
+                    <label htmlFor="status">Overall Status:</label>
                     <select id="status" name="status" className="form-control" value={formData.status} onChange={handleChange} required >
-                        <option value="Pending">Pendiente</option>
-                        <option value="In Progress">En Progreso</option>
-                        <option value="Completed">Completado</option>
-                        <option value="Cancelled">Cancelado</option>
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
                     </select>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="numProducts">Número de Productos:</label>
+                    <label htmlFor="numProducts">Number of Products:</label>
                     <input type="number" id="numProducts" name="num_products" className="form-control" value={formData.num_products} readOnly />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="finalPrice">Precio Final:</label>
+                    <label htmlFor="finalPrice">Final Price:</label>
                     <input type="number" id="finalPrice" name="final_price" className="form-control" value={Number(formData.final_price).toFixed(2)} readOnly />
                 </div>
                 <div className="form-group">
-                    <label>Añadir Productos al Pedido:</label>
+                    <label>Add Products to Order:</label>
                     <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
                         <select className="form-control" value={selectedProductId} onChange={(e) => setSelectedProductId(e.target.value)} style={{ flexGrow: 1 }} >
-                            <option value="">-- Selecciona un Producto --</option>
+                            <option value="">-- Select a Product --</option>
                             {productsOptions.map(product => (
                                 <option key={product.id} value={product.id}>
                                     {product.name} - ${Number(product.unit_price).toFixed(2)}
@@ -244,31 +244,31 @@ const AddEditOrder = () => {
                         </select>
                         <input type="number" className="form-control" value={selectedProductQuantity} onChange={(e) => setSelectedProductQuantity(parseInt(e.target.value) || 1)} min="1" style={{ width: '80px' }} />
                         <button type="button" className="btn btn-secondary" onClick={handleAddProductToOrder} style={{ minWidth: 'auto', padding: '10px 15px' }} >
-                            Añadir
+                            Add
                         </button>
                     </div>
-                    <label>Productos del Pedido:</label>
+                    <label>Order Products:</label>
                     <ul>
                         {formData.products && formData.products.length > 0 ? (
                             formData.products.map((p, index) => (
                                 <li key={p.productId}>
-                                    {p.name} - ${Number(p.unit_price).toFixed(2)} x {p.quantity} unid.
+                                    {p.name} - ${Number(p.unit_price).toFixed(2)} x {p.quantity} units.
                                     <button type="button" className="btn-action btn-delete" onClick={() => handleRemoveProductFromOrder(p.productId)} style={{ marginLeft: '10px', padding: '5px 10px', fontSize: '0.8em' }} >
                                         X
                                     </button>
                                 </li>
                             ))
                         ) : (
-                            <li>No hay productos añadidos a este pedido.</li>
+                            <li>No products added to this order.</li>
                         )}
                     </ul>
                 </div>
                 <div className="form-actions">
                     <button type="submit" className="btn btn-primary">
-                        {id ? 'Actualizar Pedido' : 'Guardar Pedido'}
+                        {id ? 'Update Order' : 'Save Order'}
                     </button>
                     <button type="button" className="btn btn-secondary" onClick={() => navigate('/my-orders')}>
-                        Cancelar
+                        Cancel
                     </button>
                 </div>
             </form>

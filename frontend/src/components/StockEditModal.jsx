@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './ProductModal.css'; // Reutilizamos los estilos del modal
+import './ProductModal.css'; // Reusing modal styles
 
 const StockEditModal = ({ show, product, onSave, onCancel }) => {
     const [stock, setStock] = useState('');
@@ -15,7 +15,7 @@ const StockEditModal = ({ show, product, onSave, onCancel }) => {
         const newStock = parseInt(stock);
         
         if (isNaN(newStock) || newStock < 0) {
-            alert('El stock debe ser un número entero no negativo.');
+            alert('Stock must be a non-negative integer.');
             return;
         }
 
@@ -29,7 +29,7 @@ const StockEditModal = ({ show, product, onSave, onCancel }) => {
     return (
         <div className="modal-overlay">
             <div className="modal-content">
-                <h2>Editar Stock de {product ? product.name : ''}</h2>
+                <h2>Edit Stock for {product ? product.name : ''}</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="stock">Stock:</label>
@@ -44,10 +44,10 @@ const StockEditModal = ({ show, product, onSave, onCancel }) => {
                     </div>
                     <div className="modal-actions">
                         <button type="submit" className="btn-confirm">
-                            Guardar
+                            Save
                         </button>
                         <button type="button" onClick={onCancel} className="btn-cancel">
-                            Cancelar
+                            Cancel
                         </button>
                     </div>
                 </form>

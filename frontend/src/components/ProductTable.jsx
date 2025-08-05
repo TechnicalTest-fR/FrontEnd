@@ -1,4 +1,3 @@
-// src/components/ProductTable.jsx
 import React from 'react';
 import '../modules/TableEffects.css'; 
 
@@ -14,19 +13,19 @@ const ProductTable = ({ products, suppliers, onEdit, onDelete }) => {
             <table>
                 <thead>
                     <tr>
-                        <th>Código</th>
-                        <th>Nombre</th>
-                        <th>Clasificación</th>
-                        <th>Proveedor</th>
-                        <th>Precio Unitario</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Classification</th>
+                        <th>Supplier</th>
+                        <th>Unit Price</th>
                         <th>Stock</th>
-                        <th>Acciones</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {products.length === 0 ? (
                         <tr>
-                            <td colSpan="7" style={{ textAlign: 'center', padding: '20px' }}>No hay productos para mostrar.</td>
+                            <td colSpan="7" style={{ textAlign: 'center', padding: '20px' }}>No products to display.</td>
                         </tr>
                     ) : (
                         products.map((product) => (
@@ -47,8 +46,8 @@ const ProductTable = ({ products, suppliers, onEdit, onDelete }) => {
                                 </td>
                                 <td>{product.stock}</td>
                                 <td>
-                                    <button onClick={() => onEdit(product.id)} className="btn-action btn-edit">Editar</button>
-                                    <button onClick={() => onDelete(product.id)} className="btn-action btn-delete">Eliminar</button>
+                                    <button onClick={() => onEdit(product.id)} className="btn-action btn-edit">Edit</button>
+                                    <button onClick={() => onDelete(product.id)} className="btn-action btn-delete">Delete</button>
                                 </td>
                             </tr>
                         ))

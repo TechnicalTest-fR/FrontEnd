@@ -1,8 +1,7 @@
-// src/pages/Reports.jsx
 import React, { useState, useEffect, useMemo } from 'react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import * as ordersService from '../services/ordersService';
 import * as productsService from '../services/productsService';
-// Importamos el nuevo servicio para los proveedores
 import * as suppliersService from '../services/suppliersService'; 
 import * as XLSX from 'xlsx';
 import '../style.css'; 
@@ -11,18 +10,16 @@ import '../modules/Reports.css';
 const Reports = () => {
     const [orders, setOrders] = useState([]);
     const [products, setProducts] = useState([]);
-    // Nuevo estado para los proveedores
     const [suppliers, setSuppliers] = useState([]); 
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null); // Estado para manejar errores
+    const [error, setError] = useState(null);
     const [salesPeriod, setSalesPeriod] = useState('month');
 
     useEffect(() => {
         const fetchAllData = async () => {
             setLoading(true);
-            setError(null); // Reseteamos el error al iniciar la carga
+            setError(null);
             try {
-                // Usamos Promise.all para hacer las 3 peticiones al mismo tiempo
                 const [ordersData, productsData, suppliersData] = await Promise.all([
                     ordersService.getOrders(),
                     productsService.getProducts(),
@@ -30,10 +27,10 @@ const Reports = () => {
                 ]);
                 setOrders(ordersData);
                 setProducts(productsData);
-                setSuppliers(suppliersData); // Guardamos la lista de proveedores
+                setSuppliers(suppliersData);
             } catch (err) {
-                console.error("Error al cargar los datos para los reportes:", err);
-                setError('Error al cargar los datos. Verifique la conexión con la API.');
+                console.error("Error loading data for reports:", err);
+                setError('Error loading data. Check the API connection.');
             } finally {
                 setLoading(false);
             }
@@ -41,10 +38,8 @@ const Reports = () => {
         fetchAllData();
     }, []);
 
-    // OPTIMIZACIÓN: Se usa un solo useMemo para todos los cálculos complejos.
     const { ordersByStatusData, lowStockProducts, topSellingProducts, productsBySupplierData, salesByDay, salesByPeriod } = useMemo(() => {
         
-        // Creamos mapas para una búsqueda más eficiente
         const productMap = products.reduce((map, product) => {
             map[product.id] = product;
             return map;
@@ -55,20 +50,17 @@ const Reports = () => {
             return map;
         }, {});
 
-        // Reporte 1: Órdenes por estado
         const ordersByStatus = orders.reduce((acc, order) => {
             acc[order.status] = (acc[order.status] || 0) + 1;
             return acc;
         }, {});
         const ordersByStatusData = Object.keys(ordersByStatus).map(status => ({
-            Estado: status,
-            "Número de Órdenes": ordersByStatus[status],
+            Status: status,
+            "Number of Orders": ordersByStatus[status],
         }));
 
-        // Reporte 2: Productos con stock bajo
         const lowStockProducts = products.filter(product => product.stock <= 5);
 
-        // Reporte 3: Productos más vendidos
         const productSales = {};
         orders.forEach(order => {
             if (order.products && Array.isArray(order.products)) {
@@ -81,23 +73,21 @@ const Reports = () => {
             }
         });
         const topSellingProducts = Object.keys(productSales)
-            .map(name => ({ "Nombre del Producto": name, "Cantidad Vendida": productSales[name] }))
-            .sort((a, b) => b["Cantidad Vendida"] - a["Cantidad Vendida"])
+            .map(name => ({ "Product Name": name, "Quantity Sold": productSales[name] }))
+            .sort((a, b) => b["Quantity Sold"] - a["Quantity Sold"])
             .slice(0, 10);
 
-        // Reporte 4: Productos por proveedor (NUEVO)
         const productsBySupplier = products.reduce((acc, product) => {
             const supplier = supplierMap[product.supplier_id];
-            const supplierName = supplier ? supplier.company_name : 'Sin proveedor';
+            const supplierName = supplier ? supplier.company_name : 'No supplier';
             acc[supplierName] = (acc[supplierName] || 0) + 1;
             return acc;
         }, {});
         const productsBySupplierData = Object.keys(productsBySupplier).map(name => ({
-            "Proveedor": name,
-            "Número de Productos": productsBySupplier[name],
+            "Supplier": name,
+            "Number of Products": productsBySupplier[name],
         }));
 
-        // Reporte 5: Ventas por período
         const salesByDay = orders.reduce((acc, order) => {
             const date = new Date(order.order_date);
             const key = date.toISOString().split('T')[0];
@@ -105,16 +95,16 @@ const Reports = () => {
             return acc;
         }, {});
         const salesByDayData = Object.keys(salesByDay).map(key => ({
-            Periodo: key,
-            Ventas: parseFloat(salesByDay[key].toFixed(2)),
-        })).sort((a, b) => new Date(a.Periodo) - new Date(b.Periodo));
+            Period: key,
+            Sales: parseFloat(salesByDay[key].toFixed(2)),
+        })).sort((a, b) => new Date(a.Period) - new Date(b.Period));
         
         const salesByPeriodData = () => {
             if (salesPeriod === 'day') return salesByDayData;
 
             const sales = {};
             salesByDayData.forEach(sale => {
-                const date = new Date(sale.Periodo);
+                const date = new Date(sale.Period);
                 let key;
                 if (salesPeriod === 'week') {
                     const startOfWeek = new Date(date.setDate(date.getDate() - date.getDay()));
@@ -123,13 +113,13 @@ const Reports = () => {
                     key = date.toISOString().substring(0, 7);
                 }
                 if (key) {
-                    sales[key] = (sales[key] || 0) + sale.Ventas;
+                    sales[key] = (sales[key] || 0) + sale.Sales;
                 }
             });
             return Object.keys(sales).map(key => ({
-                Periodo: key,
-                Ventas: parseFloat(sales[key].toFixed(2)),
-            })).sort((a, b) => new Date(a.Periodo) - new Date(b.Periodo));
+                Period: key,
+                Sales: parseFloat(sales[key].toFixed(2)),
+            })).sort((a, b) => new Date(a.Period) - new Date(b.Period));
         };
         
         return {
@@ -144,17 +134,17 @@ const Reports = () => {
 
     const handleExportToExcel = (data, fileName) => {
         if (!data || data.length === 0) {
-            alert("No hay datos para exportar.");
+            alert("No data to export.");
             return;
         }
         const worksheet = XLSX.utils.json_to_sheet(data);
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Reporte");
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Report");
         XLSX.writeFile(workbook, `${fileName}_${new Date().toISOString().split('T')[0]}.xlsx`);
     };
 
     if (loading) {
-        return <div className="container">Cargando datos para los reportes...</div>;
+        return <div className="container">Loading data for reports...</div>;
     }
 
     if (error) {
@@ -163,35 +153,34 @@ const Reports = () => {
 
     return (
         <div className="container reports-container">
-            <h1>Módulo de Reportes</h1>
+            <h1>Reports Module</h1>
 
-            {/* Reporte: Ventas por Período */}
             <div className="report-card">
                 <div className="report-header">
-                    <h3>Ventas por Período</h3>
+                    <h3>Sales by Period</h3>
                     <div className="report-actions">
                         <select onChange={(e) => setSalesPeriod(e.target.value)} value={salesPeriod}>
-                            <option value="day">Por Día</option>
-                            <option value="week">Por Semana</option>
-                            <option value="month">Por Mes</option>
+                            <option value="day">By Day</option>
+                            <option value="week">By Week</option>
+                            <option value="month">By Month</option>
                         </select>
                         <button 
                             className="btn btn-export" 
-                            onClick={() => handleExportToExcel(salesByPeriod, `Ventas_${salesPeriod}`)}>
-                            Exportar a Excel
+                            onClick={() => handleExportToExcel(salesByPeriod, `Sales_${salesPeriod}`)}>
+                            Export to Excel
                         </button>
                     </div>
                 </div>
                 <div className="report-content">
                     <table>
                         <thead>
-                            <tr><th>Periodo</th><th>Ventas Totales</th></tr>
+                            <tr><th>Period</th><th>Total Sales</th></tr>
                         </thead>
                         <tbody>
                             {salesByPeriod.map((item, index) => (
                                 <tr key={index}>
-                                    <td>{item.Periodo}</td>
-                                    <td>${item.Ventas.toFixed(2)}</td>
+                                    <td>{item.Period}</td>
+                                    <td>${item.Sales.toFixed(2)}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -199,26 +188,25 @@ const Reports = () => {
                 </div>
             </div>
 
-            {/* Reporte: Productos Más Vendidos (Top 10) */}
             <div className="report-card">
                 <div className="report-header">
-                    <h3>Productos Más Vendidos (Top 10)</h3>
+                    <h3>Top Selling Products (Top 10)</h3>
                     <button 
                         className="btn btn-export" 
-                        onClick={() => handleExportToExcel(topSellingProducts, 'Productos_Mas_Vendidos')}>
-                        Exportar a Excel
+                        onClick={() => handleExportToExcel(topSellingProducts, 'Top_Selling_Products')}>
+                        Export to Excel
                     </button>
                 </div>
                 <div className="report-content">
                     <table>
                         <thead>
-                            <tr><th>Producto</th><th>Cantidad Vendida</th></tr>
+                            <tr><th>Product Name</th><th>Quantity Sold</th></tr>
                         </thead>
                         <tbody>
                             {topSellingProducts.map((item, index) => (
                                 <tr key={index}>
-                                    <td>{item["Nombre del Producto"]}</td>
-                                    <td>{item["Cantidad Vendida"]}</td>
+                                    <td>{item["Product Name"]}</td>
+                                    <td>{item["Quantity Sold"]}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -226,26 +214,25 @@ const Reports = () => {
                 </div>
             </div>
 
-            {/* Reporte: Órdenes por Estado */}
             <div className="report-card">
                 <div className="report-header">
-                    <h3>Órdenes por Estado</h3>
+                    <h3>Orders by Status</h3>
                     <button 
                         className="btn btn-export" 
-                        onClick={() => handleExportToExcel(ordersByStatusData, 'Ordenes_por_Estado')}>
-                        Exportar a Excel
+                        onClick={() => handleExportToExcel(ordersByStatusData, 'Orders_by_Status')}>
+                        Export to Excel
                     </button>
                 </div>
                 <div className="report-content">
                     <table>
                         <thead>
-                            <tr><th>Estado</th><th>Número de Órdenes</th></tr>
+                            <tr><th>Status</th><th>Number of Orders</th></tr>
                         </thead>
                         <tbody>
                             {ordersByStatusData.map((item, index) => (
                                 <tr key={index}>
-                                    <td>{item.Estado}</td>
-                                    <td>{item["Número de Órdenes"]}</td>
+                                    <td>{item.Status}</td>
+                                    <td>{item["Number of Orders"]}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -253,52 +240,50 @@ const Reports = () => {
                 </div>
             </div>
 
-            {/* NUEVO Reporte: Productos por Proveedor */}
             <div className="report-card">
                 <div className="report-header">
-                    <h3>Productos por Proveedor</h3>
+                    <h3>Products by Supplier</h3>
                     <button 
                         className="btn btn-export" 
-                        onClick={() => handleExportToExcel(productsBySupplierData, 'Productos_por_Proveedor')}>
-                        Exportar a Excel
+                        onClick={() => handleExportToExcel(productsBySupplierData, 'Products_by_Supplier')}>
+                        Export to Excel
                     </button>
                 </div>
                 <div className="report-content">
                     {productsBySupplierData.length > 0 ? (
                         <table>
                             <thead>
-                                <tr><th>Proveedor</th><th>Número de Productos</th></tr>
+                                <tr><th>Supplier</th><th>Number of Products</th></tr>
                             </thead>
                             <tbody>
                                 {productsBySupplierData.map((item, index) => (
                                     <tr key={index}>
-                                        <td>{item.Proveedor}</td>
-                                        <td>{item["Número de Productos"]}</td>
+                                        <td>{item.Supplier}</td>
+                                        <td>{item["Number of Products"]}</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                     ) : (
-                        <p>No hay datos de proveedores disponibles.</p>
+                        <p>No supplier data available.</p>
                     )}
                 </div>
             </div>
 
-            {/* Reporte: Inventario Bajo */}
             <div className="report-card">
                 <div className="report-header">
-                    <h3>Inventario Bajo (Stock &lt;= 5)</h3>
+                    <h3>Low Inventory (Stock &lt;= 5)</h3>
                     <button 
                         className="btn btn-export" 
-                        onClick={() => handleExportToExcel(lowStockProducts, 'Inventario_Bajo')}>
-                        Exportar a Excel
+                        onClick={() => handleExportToExcel(lowStockProducts, 'Low_Inventory')}>
+                        Export to Excel
                     </button>
                 </div>
                 <div className="report-content">
                     {lowStockProducts.length > 0 ? (
                         <table>
                             <thead>
-                                <tr><th>Nombre del Producto</th><th>Stock Actual</th></tr>
+                                <tr><th>Product Name</th><th>Current Stock</th></tr>
                             </thead>
                             <tbody>
                                 {lowStockProducts.map(product => (
@@ -310,7 +295,7 @@ const Reports = () => {
                             </tbody>
                         </table>
                     ) : (
-                        <p>No hay productos con stock bajo.</p>
+                        <p>No products with low stock.</p>
                     )}
                 </div>
             </div>

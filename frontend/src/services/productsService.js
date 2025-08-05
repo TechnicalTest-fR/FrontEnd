@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { API_BASE_URL_PRODUCTS } from '../environment/environment';
 
-const API_URL = `${API_BASE_URL_PRODUCTS}/api/products`;
+const API_URL = `${API_BASE_URL_PRODUCTS}/products`;
 
 export const getProducts = async () => {
     try {

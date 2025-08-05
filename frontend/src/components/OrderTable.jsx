@@ -1,4 +1,3 @@
-// src/components/OrderTable.jsx
 import React from 'react';
 import '../modules/TableEffects.css'; 
 import { formatDate, getStatusStyleClass } from '../utils/helpers'; 
@@ -15,20 +14,20 @@ const OrderTable = ({ orders, onEdit, onDelete, onChangeStatus, onViewDetails })
             <table>
                 <thead>
                     <tr>
-                        <th>Nº Pedido</th>
-                        <th>Fecha</th>
-                        <th>Nombre del Cliente</th>
-                        <th>Estado de Pago</th>
-                        <th>Nº Productos</th>
-                        <th>Precio Final</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
+                        <th>Order #</th>
+                        <th>Date</th>
+                        <th>Customer Name</th>
+                        <th>Payment Status</th>
+                        <th># Products</th>
+                        <th>Final Price</th>
+                        <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {orders.length === 0 ? (
                         <tr>
-                            <td colSpan="8" style={{ textAlign: 'center', padding: '20px' }}>No hay pedidos para mostrar.</td>
+                            <td colSpan="8" style={{ textAlign: 'center', padding: '20px' }}>No orders to display.</td>
                         </tr>
                     ) : (
                         orders.map((order) => (
@@ -49,10 +48,10 @@ const OrderTable = ({ orders, onEdit, onDelete, onChangeStatus, onViewDetails })
                                         onChange={(e) => handleStatusChange(order.id, e.target.value, e)}
                                         className={`status-select ${getStatusStyleClass(order.status)}`}
                                     >
-                                        <option value="Pendiente">Pendiente</option>
-                                        <option value="En Progreso">En Progreso</option>
-                                        <option value="Completado">Completado</option>
-                                        <option value="Cancelado">Cancelado</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="In Progress">In Progress</option>
+                                        <option value="Completed">Completed</option>
+                                        <option value="Canceled">Canceled</option>
                                     </select>
                                 </td>
                                 <td className="actions-cell"> 
@@ -60,19 +59,19 @@ const OrderTable = ({ orders, onEdit, onDelete, onChangeStatus, onViewDetails })
                                         onClick={(e) => { e.stopPropagation(); onViewDetails(order); }} 
                                         className="btn btn-view btn-sm"
                                     >
-                                        Detalles
+                                        Details
                                     </button>
                                     <button 
                                         onClick={(e) => { e.stopPropagation(); onEdit(order.id); }} 
                                         className="btn btn-edit btn-sm"
                                     >
-                                        Editar
+                                        Edit
                                     </button>
                                     <button 
                                         onClick={(e) => { e.stopPropagation(); onDelete(order.id); }} 
                                         className="btn btn-delete btn-sm"
                                     >
-                                        Eliminar
+                                        Delete
                                     </button>
                                 </td>
                             </tr>

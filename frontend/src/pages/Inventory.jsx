@@ -1,4 +1,3 @@
-// src/pages/Inventory.jsx
 import React, { useState, useEffect } from 'react';
 import * as productsService from '../services/productsService';
 import * as suppliersService from '../services/suppliersService'; 
@@ -16,12 +15,10 @@ const Inventory = () => {
     const [showStockModal, setShowStockModal] = useState(false);
     const [currentProduct, setCurrentProduct] = useState(null);
 
-    // Estados para los filtros
     const [searchTerm, setSearchTerm] = useState('');
     const [supplierFilter, setSupplierFilter] = useState('');
     const [stockStatusFilter, setStockStatusFilter] = useState('');
 
-    // Estados para la paginación
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10; 
 
@@ -41,7 +38,7 @@ const Inventory = () => {
             
         } catch (err) {
             console.error('Failed to fetch data:', err);
-            setError('Error al cargar el inventario. Por favor, intente de nuevo.');
+            setError('Error loading inventory. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -51,23 +48,21 @@ const Inventory = () => {
         fetchAllData();
     }, []);
 
-    // Handlers para los cambios en los filtros
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
-        setCurrentPage(1); // Resetear la paginación al cambiar el filtro
+        setCurrentPage(1);
     };
 
     const handleSupplierChange = (e) => {
         setSupplierFilter(e.target.value);
-        setCurrentPage(1); // Resetear la paginación
+        setCurrentPage(1);
     };
 
     const handleStockStatusChange = (e) => {
         setStockStatusFilter(e.target.value);
-        setCurrentPage(1); // Resetear la paginación
+        setCurrentPage(1);
     };
 
-    // Lógica para aplicar todos los filtros combinados
     const filteredProducts = products.filter(product => {
         const matchesSearchTerm = 
             product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -93,19 +88,19 @@ const Inventory = () => {
         try {
             const productToUpdate = products.find(p => p.id === productId);
             if (!productToUpdate) {
-                throw new Error('Producto no encontrado.');
+                throw new Error('Product not found.');
             }
             
             const updatedProduct = { ...productToUpdate, stock: newStock };
 
             await productsService.updateProduct(updatedProduct.id, updatedProduct);
-            alert('Stock actualizado con éxito!');
+            alert('Stock updated successfully!');
             
             fetchAllData(); 
             
         } catch (err) {
             console.error('Failed to save stock:', err);
-            alert('Error al guardar el stock.');
+            alert('Error saving stock.');
         } finally {
             setCurrentProduct(null);
         }
@@ -116,14 +111,13 @@ const Inventory = () => {
         setCurrentProduct(null);
     };
 
-    // Lógica de paginación sobre los productos filtrados
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentProducts = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     if (loading) {
-        return <div className="container">Cargando inventario...</div>;
+        return <div className="container">Loading inventory...</div>;
     }
 
     if (error) {
@@ -132,18 +126,18 @@ const Inventory = () => {
 
     return (
         <div className="container">
-            <h1>Inventario</h1>
+            <h1>Inventory</h1>
             <div className="table-actions">
                 <div className="filters-container">
                     <input
                         type="text"
-                        placeholder="Buscar por nombre o código..."
+                        placeholder="Search by name or code..."
                         value={searchTerm}
                         onChange={handleSearchChange}
                         className="search-input"
                     />
                     <select value={supplierFilter} onChange={handleSupplierChange} className="filter-select">
-                        <option value="">Filtrar por Proveedor</option>
+                        <option value="">Filter by Supplier</option>
                         {suppliers.map(supplier => (
                             <option key={supplier.id} value={supplier.id}>
                                 {supplier.company_name}
@@ -151,9 +145,9 @@ const Inventory = () => {
                         ))}
                     </select>
                     <select value={stockStatusFilter} onChange={handleStockStatusChange} className="filter-select">
-                        <option value="">Estado de Stock</option>
-                        <option value="available">Disponible</option>
-                        <option value="low">Bajo</option>
+                        <option value="">Stock Status</option>
+                        <option value="available">Available</option>
+                        <option value="low">Low</option>
                     </select>
                 </div>
             </div>
@@ -165,12 +159,12 @@ const Inventory = () => {
             />
 
             {filteredProducts.length === 0 && (
-                <div className="no-results">No se encontraron productos que coincidan con los filtros.</div>
+                <div className="no-results">No products were found that match the filters.</div>
             )}
             
             <Pagination
                 itemsPerPage={itemsPerPage}
-                totalItems={filteredProducts.length} // El total de elementos ahora es el de los productos filtrados
+                totalItems={filteredProducts.length}
                 currentPage={currentPage}
                 paginate={paginate}
             />

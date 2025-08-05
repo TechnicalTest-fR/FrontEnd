@@ -4,7 +4,7 @@ import * as suppliersService from '../services/suppliersService';
 import * as ordersService from '../services/ordersService';
 import * as productsService from '../services/productsService';
 import SuppliersTable from '../components/SuppliersTable';
-import Pagination from '../components/Pagination'; // Asegúrate de tener este componente
+import Pagination from '../components/Pagination';
 import '../style.css';
 import '../modules/Suppliers.css';
 
@@ -16,10 +16,9 @@ const Suppliers = () => {
     const [form, setForm] = useState({ id: null, name: '', ruc: '', contact: '', address: '' });
     const [selectedSupplierId, setSelectedSupplierId] = useState(null);
 
-    // Estados para los filtros y la paginación
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5; // Cantidad de proveedores por página
+    const itemsPerPage = 5;
 
     useEffect(() => {
         const fetchSuppliersAndOrders = async () => {
@@ -47,10 +46,9 @@ const Suppliers = () => {
         fetchSuppliersAndOrders();
     }, []);
 
-    // Handlers para los filtros
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
-        setCurrentPage(1); // Reiniciar la paginación al filtrar
+        setCurrentPage(1);
     };
 
     const handleChange = (e) => {
@@ -60,7 +58,7 @@ const Suppliers = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const supplierData = { ...form, company_name: form.name }; // Usar company_name en lugar de name para la API
+            const supplierData = { ...form, company_name: form.name };
             if (form.id) {
                 await suppliersService.updateSupplier(form.id, supplierData);
             } else {
@@ -95,26 +93,22 @@ const Suppliers = () => {
     };
 
     const getPurchaseHistory = (supplierId) => {
-        if (!orders || !products) return [];
-
-        const supplierProductIds = products
-            .filter(p => p.supplier_id === supplierId)
-            .map(p => p.id);
+        if (!orders) return [];
 
         const supplierOrders = orders.filter(order =>
-            order.products && order.products.some(p => supplierProductIds.includes(p.productId))
+            order.products && order.products.some(p => {
+                return p.OrderProduct && p.OrderProduct.supplier_id === supplierId;
+            })
         );
         return supplierOrders;
     };
 
-    // Lógica de filtrado con verificación de valores
     const filteredSuppliers = suppliers.filter(supplier => {
         const nameMatch = supplier.company_name?.toLowerCase().includes(searchTerm.toLowerCase());
         const rucMatch = supplier.ruc?.toLowerCase().includes(searchTerm.toLowerCase());
         return nameMatch || rucMatch;
     });
 
-    // Lógica de paginación
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentSuppliers = filteredSuppliers.slice(indexOfFirstItem, indexOfLastItem);
@@ -127,7 +121,6 @@ const Suppliers = () => {
     return (
         <div className="container suppliers-container">
             <h1>Gestión de Proveedores</h1>
-
             <div className="suppliers-content">
                 <div className="suppliers-form-card">
                     <h3>{form.id ? 'Editar Proveedor' : 'Agregar Nuevo Proveedor'}</h3>
@@ -139,7 +132,6 @@ const Suppliers = () => {
                         <button type="submit" className="btn btn-primary">{form.id ? 'Actualizar' : 'Guardar'}</button>
                     </form>
                 </div>
-                
                 <div className="suppliers-list-section">
                     <div className="filter-container">
                         <input
@@ -150,7 +142,6 @@ const Suppliers = () => {
                             className="search-input"
                         />
                     </div>
-                    
                     <SuppliersTable
                         suppliers={currentSuppliers}
                         orders={orders}
@@ -161,11 +152,9 @@ const Suppliers = () => {
                         selectedSupplierId={selectedSupplierId}
                         getPurchaseHistory={getPurchaseHistory}
                     />
-
                     {filteredSuppliers.length === 0 && (
                         <div className="no-results">No se encontraron proveedores que coincidan con la búsqueda.</div>
                     )}
-
                     <Pagination
                         itemsPerPage={itemsPerPage}
                         totalItems={filteredSuppliers.length}

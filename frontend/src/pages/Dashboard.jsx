@@ -10,14 +10,13 @@ const Dashboard = () => {
     const [orders, setOrders] = useState([]);
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
-    // Añadimos un estado para manejar los errores de la API
     const [error, setError] = useState(null); 
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchDashboardData = async () => {
             setLoading(true);
-            setError(null); // Reseteamos el error al iniciar la carga
+            setError(null);
             try {
                 const [ordersData, productsData] = await Promise.all([
                     ordersService.getOrders(),
@@ -26,9 +25,8 @@ const Dashboard = () => {
                 setOrders(ordersData);
                 setProducts(productsData);
             } catch (err) {
-                console.error("Error al cargar datos del dashboard:", err);
-                // Establecemos el mensaje de error para mostrar en la UI
-                setError('Error al cargar los datos del dashboard. Verifique la conexión con la API.');
+                console.error("Error loading dashboard data:", err);
+                setError('Error loading dashboard data. Check the API connection.');
             } finally {
                 setLoading(false);
             }
@@ -37,7 +35,6 @@ const Dashboard = () => {
     }, []);
 
     const { stats, chartData, lowStockProducts } = useMemo(() => {
-        // Calculamos los productos con stock bajo solo una vez
         const lowStockProducts = products.filter(p => p.stock <= 5);
 
         const totalOrders = orders.length;
@@ -52,7 +49,7 @@ const Dashboard = () => {
         };
 
         const productCountByClassification = products.reduce((acc, product) => {
-            const classification = product.classification || 'Sin clasificación';
+            const classification = product.classification || 'Unclassified';
             acc[classification] = (acc[classification] || 0) + 1;
             return acc;
         }, {});
@@ -73,13 +70,12 @@ const Dashboard = () => {
         };
         
         return { stats, chartData, lowStockProducts };
-    }, [orders, products]); // Se recalcula si cambian las órdenes o los productos
+    }, [orders, products]);
 
     if (loading) {
-        return <div className="container">Cargando datos del dashboard...</div>;
+        return <div className="container">Loading dashboard data...</div>;
     }
 
-    // Mostramos el mensaje de error si existe
     if (error) {
         return <div className="container error-message">{error}</div>;
     }
@@ -90,43 +86,41 @@ const Dashboard = () => {
         <div className="container dashboard-container">
             <h1 className="dashboard-title">Dashboard</h1>
 
-            {/* Tarjetas de KPIs */}
             <div className="stats-cards">
                 <div className="card">
-                    <h3>Órdenes Totales</h3>
+                    <h3>Total Orders</h3>
                     <p className="stat-number">{stats.totalOrders}</p>
                 </div>
                 <div className="card">
-                    <h3>Ingresos Totales</h3>
+                    <h3>Total Revenue</h3>
                     <p className="stat-number">${stats.totalRevenue}</p>
                 </div>
                 <div className="card">
-                    <h3>Productos en Stock</h3>
+                    <h3>Products in Stock</h3>
                     <p className="stat-number">{stats.totalStock}</p>
                 </div>
                 <div className="card low-stock-card">
-                    <h3>Stock Bajo</h3>
+                    <h3>Low Stock</h3>
                     <p className="stat-number">{stats.lowStockItems}</p>
                 </div>
             </div>
 
-            {/* Sección de gráficos */}
             <div className="charts-section">
                 <div className="card chart-card">
-                    <h3>Total de Productos por Clasificación</h3>
+                    <h3>Total Products by Classification</h3>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={chartData.classificationChartData}>
                             <XAxis dataKey="name" />
                             <YAxis />
                             <Tooltip />
                             <Legend />
-                            <Bar dataKey="count" fill="#8884d8" name="Nº de Productos" />
+                            <Bar dataKey="count" fill="#8884d8" name="# of Products" />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
 
                 <div className="card chart-card">
-                    <h3>Nivel de Stock</h3>
+                    <h3>Stock Level</h3>
                     <ResponsiveContainer width="100%" height={300}>
                         <PieChart>
                             <Pie
@@ -150,16 +144,15 @@ const Dashboard = () => {
             </div>
 
             <div className="dashboard-sections">
-                {/* Tabla de órdenes recientes */}
                 <div className="card recent-orders">
-                    <h3>Órdenes Recientes</h3>
+                    <h3>Recent Orders</h3>
                     <table>
                         <thead>
                             <tr>
-                                <th>Nº Pedido</th>
-                                <th>Cliente</th>
-                                <th>Estado</th>
-                                <th>Precio Final</th>
+                                <th>Order #</th>
+                                <th>Client</th>
+                                <th>Status</th>
+                                <th>Final Price</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -173,12 +166,11 @@ const Dashboard = () => {
                             ))}
                         </tbody>
                     </table>
-                    <button onClick={() => navigate('/orders')} className="btn btn-primary btn-sm">Ver todos los pedidos</button>
+                    <button onClick={() => navigate('/orders')} className="btn btn-primary btn-sm">View all orders</button>
                 </div>
 
-                {/* Alerta de inventario */}
                 <div className="card low-stock-alert">
-                    <h3>Productos con Stock Bajo</h3>
+                    <h3>Products with Low Stock</h3>
                     {lowStockProducts.length > 0 ? (
                         <ul>
                             {lowStockProducts.map(product => (
@@ -186,9 +178,9 @@ const Dashboard = () => {
                             ))}
                         </ul>
                     ) : (
-                        <p>No hay productos con stock bajo.</p>
+                        <p>No products with low stock.</p>
                     )}
-                    <button onClick={() => navigate('/inventory')} className="btn btn-primary btn-sm">Gestionar inventario</button>
+                    <button onClick={() => navigate('/inventory')} className="btn btn-primary btn-sm">Manage inventory</button>
                 </div>
             </div>
         </div>

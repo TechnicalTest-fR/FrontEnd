@@ -7,7 +7,7 @@
       "order_date": "2025-07-28",
       "payment_status": "Paid",
       "payment_method": "PAYPAL",
-      "status": "Pendiente",
+      "status": "Pending",
       "final_price": 1026.5,
       "products": [
         {

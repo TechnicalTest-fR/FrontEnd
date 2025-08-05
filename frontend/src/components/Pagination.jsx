@@ -16,7 +16,7 @@ const Pagination = ({ itemsPerPage, totalItems, currentPage, paginate }) => {
           onClick={() => paginate(currentPage - 1)}
           disabled={currentPage === 1}
         >
-          Anterior
+          Previous
         </button>
         {pageNumbers.map((number) => (
           <li key={number} className="page-item">
@@ -32,7 +32,7 @@ const Pagination = ({ itemsPerPage, totalItems, currentPage, paginate }) => {
           onClick={() => paginate(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
-          Siguiente
+          Next
         </button>
       </ul>
     </nav>

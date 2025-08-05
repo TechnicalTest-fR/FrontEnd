@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './ProductModal.css';
 
-// El componente ahora recibe una nueva prop: 'suppliers'
 const ProductModal = ({ show, product, suppliers, onSave, onCancel }) => {
     const [name, setName] = useState('');
     const [unitPrice, setUnitPrice] = useState('');
     const [codeProduct, setCodeProduct] = useState('');
     const [classification, setClassification] = useState('');
     const [stock, setStock] = useState('');
-    // Nuevo estado para el proveedor seleccionado
     const [supplierId, setSupplierId] = useState(''); 
 
     useEffect(() => {
@@ -18,7 +16,6 @@ const ProductModal = ({ show, product, suppliers, onSave, onCancel }) => {
             setCodeProduct(product.code_product || '');
             setClassification(product.classification || '');
             setStock(product.stock || '');
-            // Si el producto existe, establece el ID del proveedor
             setSupplierId(product.supplier_id || '');
         } else if (show && !product) {
             setName('');
@@ -26,7 +23,6 @@ const ProductModal = ({ show, product, suppliers, onSave, onCancel }) => {
             setCodeProduct('');
             setClassification('');
             setStock('');
-            // Por defecto, selecciona el primer proveedor si hay
             setSupplierId(suppliers.length > 0 ? suppliers[0].id : '');
         }
     }, [show, product, suppliers]);
@@ -35,28 +31,27 @@ const ProductModal = ({ show, product, suppliers, onSave, onCancel }) => {
         e.preventDefault();
         
         if (!name.trim()) {
-            alert('El nombre del producto no puede estar vacío.');
+            alert('Product name cannot be empty.');
             return;
         }
         if (isNaN(parseFloat(unitPrice)) || parseFloat(unitPrice) <= 0) {
-            alert('El precio unitario debe ser un número positivo.');
+            alert('Unit price must be a positive number.');
             return;
         }
         if (isNaN(parseInt(stock)) || parseInt(stock) < 0) {
-            alert('El stock debe ser un número entero no negativo.');
+            alert('Stock must be a non-negative integer.');
             return;
         }
         if (!codeProduct.trim()) {
-            alert('El código de producto no puede estar vacío.');
+            alert('Product code cannot be empty.');
             return;
         }
         if (!classification.trim()) {
-            alert('La clasificación no puede estar vacía.');
+            alert('Classification cannot be empty.');
             return;
         }
-        // Nueva validación para el proveedor
         if (!supplierId) {
-            alert('Debe seleccionar un proveedor.');
+            alert('You must select a supplier.');
             return;
         }
 
@@ -67,7 +62,7 @@ const ProductModal = ({ show, product, suppliers, onSave, onCancel }) => {
             code_product: codeProduct,
             classification,
             stock: parseInt(stock),
-            supplier_id: supplierId // <-- Guardamos el ID del proveedor
+            supplier_id: supplierId
         });
     };
 
@@ -78,10 +73,10 @@ const ProductModal = ({ show, product, suppliers, onSave, onCancel }) => {
     return (
         <div className="modal-overlay">
             <div className="modal-content">
-                <h2>{product ? 'Editar Producto' : 'Añadir Nuevo Producto'}</h2>
+                <h2>{product ? 'Edit Product' : 'Add New Product'}</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="productName">Nombre:</label>
+                        <label htmlFor="productName">Name:</label>
                         <input
                             type="text"
                             id="productName"
@@ -90,9 +85,8 @@ const ProductModal = ({ show, product, suppliers, onSave, onCancel }) => {
                             required
                         />
                     </div>
-                    {/* ... (otros campos del formulario) ... */}
                     <div className="form-group">
-                        <label htmlFor="codeProduct">Código de Producto:</label>
+                        <label htmlFor="codeProduct">Product Code:</label>
                         <input
                             type="text"
                             id="codeProduct"
@@ -102,7 +96,7 @@ const ProductModal = ({ show, product, suppliers, onSave, onCancel }) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="classification">Clasificación:</label>
+                        <label htmlFor="classification">Classification:</label>
                         <input
                             type="text"
                             id="classification"
@@ -112,7 +106,7 @@ const ProductModal = ({ show, product, suppliers, onSave, onCancel }) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="unitPrice">Precio Unitario:</label>
+                        <label htmlFor="unitPrice">Unit Price:</label>
                         <input
                             type="number"
                             id="unitPrice"
@@ -134,16 +128,15 @@ const ProductModal = ({ show, product, suppliers, onSave, onCancel }) => {
                             required
                         />
                     </div>
-                    {/* Campo de selección para el proveedor */}
                     <div className="form-group">
-                        <label htmlFor="supplier">Proveedor:</label>
+                        <label htmlFor="supplier">Supplier:</label>
                         <select
                             id="supplier"
                             value={supplierId}
                             onChange={(e) => setSupplierId(e.target.value)}
                             required
                         >
-                            <option value="">-- Seleccione un proveedor --</option>
+                            <option value="">-- Select a supplier --</option>
                             {suppliers.map(supplier => (
                                 <option key={supplier.id} value={supplier.id}>
                                     {supplier.company_name}
@@ -153,10 +146,10 @@ const ProductModal = ({ show, product, suppliers, onSave, onCancel }) => {
                     </div>
                     <div className="modal-actions">
                         <button type="submit" className="btn-confirm">
-                            {product ? 'Guardar Cambios' : 'Añadir Producto'}
+                            {product ? 'Save Changes' : 'Add Product'}
                         </button>
                         <button type="button" onClick={onCancel} className="btn-cancel">
-                            Cancelar
+                            Cancel
                         </button>
                     </div>
                 </form>

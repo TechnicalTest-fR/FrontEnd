@@ -1,6 +1,6 @@
 {
-  "/api/orders": "/orders",
-  "/api/products": "/products",
-  "/api/products/:id": "/products/:id",
-  "/api/orders/:id": "/orders/:id"
+  "/orders": "/orders",
+  "/products": "/products",
+  "/products/:id": "/products/:id",
+  "/orders/:id": "/orders/:id"
 }

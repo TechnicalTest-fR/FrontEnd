@@ -5,7 +5,7 @@ import * as ordersService from '../services/ordersService';
 import OrderTable from '../components/OrderTable';
 import Pagination from '../components/Pagination';
 import ConfirmationModal from '../components/ConfirmationModal';
-import OrderDetailModal from '../components/orderDetailModal';
+import OrderDetailModal from '../components/OrderDetailModal';
 import '../style.css';
 import '../modules/TableEffects.css';
 
@@ -40,7 +40,7 @@ const MyOrders = () => {
             setOrders(processedOrders);
         } catch (err) {
             console.error('Failed to fetch orders:', err);
-            setError('Error al cargar los pedidos. Por favor, intente de nuevo.');
+            setError('Error loading orders. Please try again.');
             setOrders([]);
         } finally {
             setLoading(false);
@@ -137,7 +137,7 @@ const MyOrders = () => {
     };
 
     if (loading) {
-        return <div className="container">Cargando pedidos...</div>;
+        return <div className="container">Loading orders...</div>;
     }
 
     if (error) {
@@ -154,26 +154,26 @@ const MyOrders = () => {
                 <div className="filters-container">
                     <input
                         type="text"
-                        placeholder="Nº Pedido..."
+                        placeholder="Order #..."
                         value={searchTerm}
                         onChange={handleSearchChange}
                         className="search-input"
                     />
                     <select value={paymentStatusFilter} onChange={handlePaymentStatusChange} className="filter-select">
-                        <option value="">Estado de Pago</option>
+                        <option value="">Payment Status</option>
                         <option value="Paid">Paid</option>
                         <option value="Pending">Pending</option>
                     </select>
                     <select value={orderStatusFilter} onChange={handleOrderStatusChange} className="filter-select">
-                        <option value="">Estado</option>
-                        <option value="Pendiente">Pendiente</option>
-                        <option value="En Progreso">En Progreso</option>
-                        <option value="Completado">Completado</option>
-                        <option value="Cancelado">Cancelado</option>
+                        <option value="">Status</option>
+                        <option value="Pendiente">Pending</option>
+                        <option value="En Progreso">In Progress</option>
+                        <option value="Completado">Completed</option>
+                        <option value="Cancelado">Canceled</option>
                     </select>
                     <input
                         type="number"
-                        placeholder="Nº Productos"
+                        placeholder="# Products"
                         value={numProductsFilter}
                         onChange={handleNumProductsChange}
                         className="filter-input"
@@ -189,7 +189,7 @@ const MyOrders = () => {
                 onViewDetails={handleViewDetails}
             />
             {filteredOrders.length === 0 && (
-                <div className="no-results">No se encontraron resultados.</div>
+                <div className="no-results">No results found.</div>
             )}
 
             <Pagination
@@ -202,7 +202,7 @@ const MyOrders = () => {
             <ConfirmationModal
                 show={showDeleteModal}
                 title="Confirm Deletion"
-                message="¿Are you sure you want to delete this order?"
+                message="Are you sure you want to delete this order?"
                 onConfirm={handleConfirmDelete}
                 onCancel={handleCancelDelete}
             />

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { API_BASE_URL_ORDERS } from '../environment/environment';
 
 // Utiliza la URL base para el endpoint de pedidos
-const API_URL = `${API_BASE_URL_ORDERS}/api/orders`;
+const API_URL = `${API_BASE_URL_ORDERS}/orders`;
 
 
 export const getOrders = async () => {

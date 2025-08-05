@@ -1,4 +1,3 @@
-// src/pages/Products.jsx
 import React, { useState, useEffect } from 'react';
 import * as productsService from '../services/productsService';
 import * as suppliersService from '../services/suppliersService'; 
@@ -21,12 +20,10 @@ const Products = () => {
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [productIdToDelete, setProductIdToDelete] = useState(null);
 
-    // Estados para los filtros
     const [searchTerm, setSearchTerm] = useState('');
     const [classificationFilter, setClassificationFilter] = useState('');
     const [supplierFilter, setSupplierFilter] = useState('');
 
-    // Estados para la paginación
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10; 
 
@@ -45,7 +42,7 @@ const Products = () => {
             
         } catch (err) {
             console.error('Failed to fetch data:', err);
-            setError('Error al cargar los datos. Por favor, intente de nuevo.');
+            setError('Error loading data. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -55,23 +52,21 @@ const Products = () => {
         fetchData();
     }, []);
 
-    // Handlers de los filtros
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
-        setCurrentPage(1); // Reiniciar paginación
+        setCurrentPage(1);
     };
 
     const handleClassificationChange = (e) => {
         setClassificationFilter(e.target.value);
-        setCurrentPage(1); // Reiniciar paginación
+        setCurrentPage(1);
     };
 
     const handleSupplierChange = (e) => {
         setSupplierFilter(e.target.value);
-        setCurrentPage(1); // Reiniciar paginación
+        setCurrentPage(1);
     };
 
-    // Lógica para aplicar los filtros
     const filteredProducts = products.filter(product => {
         const matchesSearchTerm = 
             product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -101,7 +96,7 @@ const Products = () => {
             if (productData.id) {
                 const productToUpdate = products.find(p => p.id === productData.id);
                 if (!productToUpdate) {
-                    throw new Error('Producto no encontrado en el estado.');
+                    throw new Error('Product not found in state.');
                 }
                 
                 const updatedProduct = new Product({...productToUpdate, supplier_id: productData.supplier_id});
@@ -116,17 +111,17 @@ const Products = () => {
                 updatedProduct.stock = productData.stock;
 
                 await productsService.updateProduct(updatedProduct.id, updatedProduct);
-                alert('Producto actualizado con éxito!');
+                alert('Product updated successfully!');
 
             } else {
                 await productsService.createProduct(productData);
-                alert('Producto añadido con éxito!');
+                alert('Product added successfully!');
             }
             fetchData();
             setCurrentPage(1);
         } catch (err) {
             console.error('Failed to save product:', err);
-            alert('Error al guardar el producto.');
+            alert('Error saving product.');
         } finally {
             setCurrentProduct(null);
         }
@@ -147,12 +142,12 @@ const Products = () => {
         if (productIdToDelete) {
             try {
                 await productsService.deleteProduct(productIdToDelete);
-                alert('Producto eliminado con éxito!');
+                alert('Product deleted successfully!');
                 fetchData();
                 setCurrentPage(1);
             } catch (err) {
                 console.error('Failed to delete product:', err);
-                alert('Error al eliminar el producto.');
+                alert('Error deleting product.');
             } finally {
                 setProductIdToDelete(null);
             }
@@ -164,17 +159,15 @@ const Products = () => {
         setProductIdToDelete(null);
     };
 
-    // Lógica de paginación sobre los productos filtrados
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentProducts = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    // Obtener clasificaciones únicas para el filtro
     const uniqueClassifications = [...new Set(products.map(p => p.classification))];
 
     if (loading) {
-        return <div className="container">Cargando productos y proveedores...</div>;
+        return <div className="container">Loading products and suppliers...</div>;
     }
 
     if (error) {
@@ -192,7 +185,7 @@ const Products = () => {
                 <div className="filters-container">
                     <input
                         type="text"
-                        placeholder="Buscar por nombre o código..."
+                        placeholder="Search by name or code..."
                         value={searchTerm}
                         onChange={handleSearchChange}
                         className="search-input"
@@ -202,7 +195,7 @@ const Products = () => {
                         onChange={handleClassificationChange}
                         className="filter-select"
                     >
-                        <option value="">Todas las Clasificaciones</option>
+                        <option value="">All Classifications</option>
                         {uniqueClassifications.map(classification => (
                             <option key={classification} value={classification}>
                                 {classification}
@@ -214,7 +207,7 @@ const Products = () => {
                         onChange={handleSupplierChange}
                         className="filter-select"
                     >
-                        <option value="">Todos los Proveedores</option>
+                        <option value="">All Suppliers</option>
                         {suppliers.map(supplier => (
                             <option key={supplier.id} value={supplier.id}>
                                 {supplier.company_name}
@@ -232,7 +225,7 @@ const Products = () => {
             />
 
             {filteredProducts.length === 0 && (
-                <div className="no-results">No se encontraron productos que coincidan con los filtros.</div>
+                <div className="no-results">No products were found that match the filters.</div>
             )}
 
             <Pagination
@@ -252,8 +245,8 @@ const Products = () => {
 
             <ConfirmationModal
                 show={showConfirmModal}
-                title="Confirmar Eliminación"
-                message="¿Estás seguro de que quieres eliminar este producto?"
+                title="Confirm Deletion"
+                message="Are you sure you want to delete this product?"
                 onConfirm={handleConfirmDelete}
                 onCancel={handleCancelConfirmModal}
             />
